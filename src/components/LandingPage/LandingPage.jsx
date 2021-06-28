@@ -14,6 +14,7 @@ function LandingPage() {
   };
 
   return (
+    <div className = "body">
     <div className="container">
       <h2>{heading}</h2>
 
@@ -62,6 +63,7 @@ function LandingPage() {
           </center>
         </div>
       </div>
+    </div>
     </div>
   );
 }
