@@ -1,10 +1,24 @@
 import React from 'react';
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import LogOutButton from '../LogOutButton/LogOutButton';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Button from '@material-ui/core/Button';
 function UserDashBoard() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
+  const history = useHistory();
   const user = useSelector((store) => store.user);
+  
+  const handleNav = (ingredients) => {
+    switch(history.push){
+      case ingredients :
+      return history.push("/ingredients")
+      case "create cocktail":
+        return history.push('/cocktails')
+        default:
+          return history.push("/")
+    }
+  };
   return (
     <>
     <div className="container">
@@ -12,7 +26,7 @@ function UserDashBoard() {
       <p>Your ID is: {user.id}</p>
       <LogOutButton className="btn" />
     </div>
-
+    <button onClick = {handleNav}>ingredients</button>
   <div>
 
   </div>

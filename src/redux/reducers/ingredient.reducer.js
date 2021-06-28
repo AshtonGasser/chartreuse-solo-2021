@@ -1,4 +1,4 @@
-const ingredientReducer = (state = [], action) => {
+const ingredient = (state = [], action) => {
     switch (action.type) {
         case 'SET_INGREDIENT':
             return action.payload;
@@ -7,4 +7,4 @@ const ingredientReducer = (state = [], action) => {
     }
 }
 
-export default ingredientReducer
+export default ingredient
