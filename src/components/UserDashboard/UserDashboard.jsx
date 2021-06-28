@@ -26,7 +26,7 @@ function UserDashBoard() {
       <p>Your ID is: {user.id}</p>
       <LogOutButton className="btn" />
     </div>
-    <button onClick = {handleNav}>ingredients</button>
+  {/* <button onClick = {handleNav}>ingredients</button> */}
   <div>
 
   </div>

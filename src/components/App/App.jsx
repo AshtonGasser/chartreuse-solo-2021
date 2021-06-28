@@ -19,7 +19,7 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-
+import Ingredients from "../Ingredients/Ingredients"
 import './App.css';
 
 function App() {
@@ -103,10 +103,29 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute 
           exact
-          path="/ingredients"
+          path="/ingredients/:id"
           authRedirect="/user">
+            <Ingredients/>
+          </ProtectedRoute>
+          {/* <ProtectedRoute
+          exact 
+          path ="/allcocktails"
+          authRedirect ="/user">
 
           </ProtectedRoute>
+          <ProtectedRoute
+          exact 
+          path ="/cocktails"
+          authRedirect ="/user">
+            
+          </ProtectedRoute>
+          <ProtectedRoute
+          exact 
+          path ="/edit"
+          authRedirect ="/user">
+            
+          </ProtectedRoute> */}
+       
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
