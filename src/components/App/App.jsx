@@ -14,7 +14,7 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
-import UserPage from '../UserDashboard/UserDashboard';
+import UserDashboard from '../UserDashboard/UserDashboard';
 import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
@@ -100,6 +100,12 @@ function App() {
             authRedirect="/user"
           >
             <LandingPage />
+          </ProtectedRoute>
+          <ProtectedRoute 
+          exact
+          path="/ingredients"
+          authRedirect="/user">
+
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
