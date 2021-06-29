@@ -7,8 +7,8 @@ function Ingredients () {
     const ingredient = useSelector((store) => store.ingredient)
 
     useEffect(() => {
-        dispatch({ type: "fetch_ingredients", payload: {id} })
-    })
+        dispatch({ type: "FETCH_INGREDIENT", payload: {id} })
+    },[])
     const { id } = useParams()
     const handleClick = () => {
         console.log('clicked add ingredient');
@@ -23,11 +23,21 @@ const handleBack = () => {
     history.push('/user')
 }
 return (
+    <>
     <div>
-    <section>
+        <div>
+            <p>testing</p>
+        </div>
+    <section className ="ingredients">
+        {ingredient.map((ingredients => {
+            return (
+                <div key = {ingredients.id}><ul><li>{ingredients.name}</li></ul></div>
+            )
+        }))}
 
     </section>
     </div>
+    </>
 )
 
 

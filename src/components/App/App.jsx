@@ -55,7 +55,7 @@ function App() {
             exact
             path="/user"
           >
-            <userDashboard />
+            <UserDashboard />
           </ProtectedRoute>
 
           <ProtectedRoute
@@ -103,8 +103,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute 
           exact
-          path="/ingredients/:id"
-          authRedirect="/user">
+          path="/ingredients"
+          //authRedirect="/user"
+          >
             <Ingredients/>
           </ProtectedRoute>
           {/* <ProtectedRoute

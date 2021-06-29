@@ -4,14 +4,14 @@ import { useHistory } from "react-router-dom";
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector, useDispatch} from 'react-redux';
 import Button from '@material-ui/core/Button';
-function UserDashBoard() {
+function UserDashboard() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const history = useHistory();
   const user = useSelector((store) => store.user);
   
   const handleNav = (ingredients) => {
     switch(history.push){
-      case ingredients :
+      case "/ingredients" :
       return history.push("/ingredients")
       case "create cocktail":
         return history.push('/cocktails')
@@ -35,4 +35,4 @@ function UserDashBoard() {
 }
 
 // this allows us to use <App /> in index.js
-export default UserDashBoard
+export default UserDashboard
