@@ -15,6 +15,25 @@ router.get('/', (req,res) => {
     })
   });
 
+router.post('/', (req,res) => {
+    console.log(req.body);
+  
+  const insertIngredientQuery = `
+  INSERT INTO "ingredient" ("name", "ingredient_type", "value" "description", "user_id")
+  VALUES ($1, $2, $3, $4, $5)
+  ;`
+ 
+  // FIRST QUERY MAKES NEW INGREDIENT
+  pool.query(insertIngredientQuery, [req.body.name, req.body.ingredient_type, req.body.value, req.body.description, req.body.user_id])
+  .then(result => {
+    console.log('ingredient Id:', result.rows[0].id); //ID IS HERE!
+    
+  
+  }).catch(err => {
+    console.log(err);
+    res.sendStatus(500)
+  })
+})
 
 
   module.exports = router
