@@ -1,12 +1,17 @@
 const express = require("express");
 const pool = require("../modules/pool");
 const router = express.Router();
+const {
+    rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 
-router.get("/", (req, res) => {
+router.get("/", rejectUnauthenticated, (req, res) => {
+  console.log('this is our ingredient request:', req.user);
   console.log("got to ingredients.get");
-  const query = `SELECT * FROM "ingredients"`;
+  const query = `SELECT * FROM "ingredients"
+  WHERE "user_id" = $1 or "user_id" = 1`;
   pool
-    .query(query)
+    .query(query, [req.user.id])
     .then((result) => {
       res.send(result.rows);
     })
@@ -16,7 +21,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", rejectUnauthenticated, (req, res) => {
   console.log('this is what we are posting');
 
   const insertIngredientQuery = `
@@ -31,7 +36,7 @@ router.post("/", (req, res) => {
       req.body.ingredient_type,
       req.body.value,
       req.body.description,
-      req.body.user_id,
+      req.user.id,
     ])
     .then((result) => {
       console.log("ingredients Id:", result.rows); 

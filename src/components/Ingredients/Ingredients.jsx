@@ -59,7 +59,6 @@ function Ingredients() {
     ingredient_type: "",
     value: "",
     description: "",
-    user_id: null
 });
 
   useEffect(() => {
@@ -131,6 +130,12 @@ function Ingredients() {
            label="Type"
            variant="filled"
            onChange={(event) => handleTextFields("ingredient_type", event.target.value)} />
+           <TextField
+           id="filled-basic"
+           label="Description"
+           variant="filled"
+           multiline
+           onChange={(event) => handleTextFields("description", event.target.value)} />
         <button onClick = {handleClick}>Add Ingredient</button>
      </form>
      <section>
