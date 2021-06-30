@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 const ingredient = (state = [], action) => {
     switch (action.type) {
         case 'SET_INGREDIENT':
@@ -6,5 +8,13 @@ const ingredient = (state = [], action) => {
             return state;
     }
 }
+const newIngredient = (state = [], action) => {
+    switch (action.type) {
+        case 'ADD_INGREDIENT':
+            return action.payload;
+            default:
+                return state;
+    }
+}
 
-export default ingredient
+export default combineReducers({ingredient, newIngredient})

@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import { withStyles } from '@material-ui/core/styles';
 
 //material-UI theme
 const useStyles = makeStyles((theme) => ({
@@ -38,11 +38,21 @@ const useStyles = makeStyles((theme) => ({
       {...props}
     />
   ));
+  const StyledMenuItem = withStyles((theme) => ({
+    root: {
+      '&:focus': {
+        backgroundColor: theme.palette.primary.main,
+        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+          color: theme.palette.common.white,
+        },
+      },
+    },
+  }))(MenuItem);
 
 function Ingredients() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const ingredient = useSelector((store) => store.ingredient);
+  const ingredient = useSelector((store) => store.ingredientReducer.ingredient);
   
   const [newIngredient, setNewIngredient] = useState({
     name: "",
@@ -64,7 +74,7 @@ function Ingredients() {
     // dispatch the new movie to redux⬇
     dispatch({
       type: "ADD_INGREDIENT",
-      payload: ingredient,
+      payload: newIngredient,
     });
   };
   const handleTextFields = (key, value) => {
@@ -109,6 +119,7 @@ function Ingredients() {
   const classes = useStyles();
   //end of data grid setup 
   return (
+      <>
       <form className={classes.root} noValidate autoComplete="off">
           <TextField
            id="filled-basic"
@@ -121,7 +132,8 @@ function Ingredients() {
            variant="filled"
            onChange={(event) => handleTextFields("ingredient_type", event.target.value)} />
         <button onClick = {handleClick}>Add Ingredient</button>
-    
+     </form>
+     <section>
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
           <div style={{ height: 600, width: "100%" }}>
@@ -129,8 +141,8 @@ function Ingredients() {
           </div>
         </div>
       </div>
-    </form>
-    
+   </section>
+    </>
   );
 }
 
