@@ -2,73 +2,49 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 //material-UI theme
 const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
-    },
-  }));
-  //material-UI dropdown style
-  const StyledMenu = withStyles({
-    paper: {
-      border: '1px solid #d3d4d5',
-    },
-  })((props) => (
-    <Menu
-      elevation={0}
-      getContentAnchorEl={null}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'center',
-      }}
-      {...props}
-    />
-  ));
-  const StyledMenuItem = withStyles((theme) => ({
-    root: {
-      '&:focus': {
-        backgroundColor: theme.palette.primary.main,
-        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-          color: theme.palette.common.white,
-        },
-      },
-    },
-  }))(MenuItem);
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 function Ingredients() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const ingredient = useSelector((store) => store.ingredientReducer.ingredient);
-  
+
   const [newIngredient, setNewIngredient] = useState({
     name: "",
     ingredient_type: "",
     value: "",
     description: "",
-});
+  });
 
   useEffect(() => {
     dispatch({ type: "FETCH_INGREDIENT", payload: { id } });
   }, []);
-    const { id } = useParams();
+  // items persist on refresh
+  const { id } = useParams();
 
-    const handleClick = (event) => {
-      event.preventDefault()
-      // checking to see what is logged⬇ 
+  //handles
+  const handleClick = (event) => {
+    event.preventDefault();
+    // checking to see what is logged⬇
     console.log("clicked add ingredient", newIngredient);
     // dispatch the new movie to redux⬇
     dispatch({
@@ -77,6 +53,7 @@ function Ingredients() {
     });
   };
   const handleTextFields = (key, value) => {
+    console.log("clicked handletextfields");
     setNewIngredient({ ...newIngredient, [key]: value });
   }; //end handleTextFields
 
@@ -84,20 +61,34 @@ function Ingredients() {
     console.log("clicked back to dash");
     history.push("/user");
   };
+
+  //handle dropdown menu functions
+  const handleClickDropMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseDropMenu = () => {
+    setAnchorEl(null);
+  };
+
   // data grid table
   const columns = [
     {
       field: "name",
       headerName: "Name",
       width: 180,
-      editable: true,
     },
 
     {
       field: "ingredient_type",
       headerName: "type",
+      width: 150,
       value: "text",
-      editable: true,
+    },
+    {
+      field: "value",
+      headerName: "Value",
+      width: 150,
+      value: "text",
     },
 
     {
@@ -105,48 +96,120 @@ function Ingredients() {
       headerName: "Description",
       type: "character varying(500)",
       width: 220,
-      editable: true,
+      //editable: true,
     },
     {
       field: "created",
       headerName: "Date Created",
       type: "date",
       width: 180,
-      editable: true,
+      //editable: true,
     },
   ];
-  const classes = useStyles();
-  //end of data grid setup 
+
+  //end of data grid setup
+
   return (
-      <>
-      <form className={classes.root} noValidate autoComplete="off">
+    <>
+      <div>
+        <FormControl className={classes.formControl}>
           <TextField
-           id="filled-basic"
-           label="Name"
-           variant="filled"
-           onChange={(event) => handleTextFields("name", event.target.value)} />
-           <TextField
-           id="filled-basic"
-           label="Type"
-           variant="filled"
-           onChange={(event) => handleTextFields("ingredient_type", event.target.value)} />
-           <TextField
-           id="filled-basic"
-           label="Description"
-           variant="filled"
-           multiline
-           onChange={(event) => handleTextFields("description", event.target.value)} />
-        <button onClick = {handleClick}>Add Ingredient</button>
-     </form>
-     <section>
-      <div style={{ display: "flex", height: "100%" }}>
-        <div style={{ flexGrow: 1 }}>
-          <div style={{ height: 600, width: "100%" }}>
-            <DataGrid rows={ingredient} columns={columns} />
+            id="filled-basic"
+            label="Name"
+            variant="filled"
+            onChange={(event) => handleTextFields("name", event.target.value)}
+          />
+        
+          {/* //DROP DOWN MENU COMPONENTS  */}
+          <InputLabel htmlFor="ingredient_type-native-required">
+            Type
+          </InputLabel>
+          <Select
+            native
+            value={ingredient.ingredient_type}
+            onChange={(event) =>
+              handleTextFields("ingredient_type", event.target.value)
+            }
+            name="type"
+            inputProps={{
+              id: "ingredient_type-native-required",
+            }}
+          >
+            <option aria-label="None" value="" />
+            <option value="bitters">Bitters</option>
+            <option value="cordial">Cordial</option>
+            <option value="garnish">Garnish</option>
+            <option value="ice">Ice</option>
+            <option value="mixer">Mixer</option>
+            <option value="shrub">Shrub</option>
+            <option value="sugar">Sugar</option>
+            <option value="spirit">Spirit</option>
+            <option value="texture">Texture</option>
+          </Select>
+          <FormHelperText>Required</FormHelperText>
+          </FormControl>
+          </div>
+          <div>
+            <FormControl>
+          <InputLabel htmlFor="ingredient_type-native-required">
+            Type
+          </InputLabel>
+          <Select
+            native
+            value={ingredient.ingredient_type}
+            onChange={(event) =>
+              handleTextFields("value", event.target.value)
+            }
+            name="value"
+            inputProps={{
+              id: "value-native-required",
+            }}
+          >
+            <option aria-label="None" value="" />
+            <option value="acid">Acid</option>
+            <option value="amaro-apéritif">amaro-apéritif</option>
+            <option value="aromatic">Aromatic</option>
+            <option value="bitters">Bitters</option>
+            <option value="bubbles">Bubbles</option>
+            <option value="decorative">Decorative</option>
+            <option value="edible">Edible</option>
+            <option value="fortified-wine">Fortified Wine</option>
+            <option value="gin">gin</option>
+            <option value="ice">Ice</option>
+            <option value="protein">Protein</option>
+            <option value="rum">Rum</option>
+            <option value="salt">Salt</option>
+            <option value="spirit">Spirit</option>
+            <option value="Sugar">Sugar</option>
+            <option value="whiskey">Whiskey</option>
+            <option value="wine">wine</option>
+            <option value="vodka">Vodka</option>
+          </Select>
+          <FormHelperText>Required</FormHelperText>
+          </FormControl>
+          </div>
+          <form>
+          <TextField
+            id="filled-basic"
+            label="Description"
+            variant="filled"
+            multiline
+            onChange={(event) =>
+              handleTextFields("description", event.target.value)
+            }
+          />
+          <button onClick={handleClick}>Add Ingredient</button>
+          </form>
+      
+      <section>
+        <div style={{ display: "flex", height: "100%" }}>
+          <div style={{ flexGrow: 1 }}>
+            <div style={{ height: 600, width: "100%" }}>
+              <DataGrid rows={ingredient} columns={columns} />
+            </div>
           </div>
         </div>
-      </div>
-   </section>
+      </section>
     </>
   );
 }
