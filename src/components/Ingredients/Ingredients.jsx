@@ -9,7 +9,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 //material-UI theme
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -25,8 +26,8 @@ function Ingredients() {
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const ingredient = useSelector((store) => store.ingredientReducer.ingredient);
+  const [rowArray, setRowArray] = useState([])
 
   const [newIngredient, setNewIngredient] = useState({
     name: "",
@@ -36,10 +37,9 @@ function Ingredients() {
   });
 
   useEffect(() => {
-    dispatch({ type: "FETCH_INGREDIENT",});
+    dispatch({ type: "FETCH_INGREDIENT" });
   }, []);
   // items persist on refresh
-  
 
   //handles
   const handleClick = (event) => {
@@ -55,74 +55,58 @@ function Ingredients() {
   const handleTextFields = (key, value) => {
     setNewIngredient({ ...newIngredient, [key]: value });
   }; //end handleTextFields
-
+  const handleCheckBox = (event) => {
+    console.log("clicked checkbox", ingredient.id);
+  };
   const handleBack = () => {
     console.log("clicked back to dash");
     history.push("/user");
   };
   const handleDelete = () => {
-       console.log('clicked delete' )
-      dispatch({type: "DELETE_INGREDIENT", payload: {id:ingredient.id}})
-  }
+    console.log("clicked delete");
+    dispatch({ type: "DELETE_INGREDIENT", payload: { id: ingredient.id } });
+  };
 
-
-
+//   const handleRowSelect = (event) =>{
+//     //event.preventDefault()
+//     setRowArray([...rowArray, event.target.value])
+//   }
   // data grid table
+ 
   const columns = [
-    {
-      field: "name",
-      headerName: "Name",
-      width: 180,
-    },
+    { field: "id", headerName: "ID", width: 90 },
 
-    {
-      field: "ingredient_type",
-      headerName: "type",
-      width: 150,
-      value: "text",
-    },
-    {
-      field: "value",
-      headerName: "Value",
-      width: 150,
-      value: "text",
-    },
+    { field: "name", headerName: "Name", width: 180 },
+
+    { field: "ingredient_type", headerName: "type", width: 150, value: "text" },
+
+    { field: "value", headerName: "Value", width: 150, value: "text" },
 
     {
       field: "description",
       headerName: "Description",
       type: "character varying(500)",
       width: 220,
-      //editable: true,
     },
-    {
-      field: "created",
-      headerName: "Date Created",
-      type: "date",
-      width: 180,
-      //editable: true,
-    },
-    {
-        field: "",
-        ColumnMenuIcon: DeleteIcon, 
-        width:  50,
 
-    }
+    { field: "created", headerName: "Date Created", type: "date", width: 180 },
+
+    { field: "", ColumnMenuIcon: DeleteIcon, width: 50 },
   ];
 
   //end of data grid setup
-
+ console.log('in rowArray', rowArray);
   return (
     <>
       <div className={classes.root}>
-          <TextField
-            id="filled-basic"
-            label="Name"
-            variant="filled"
-            onChange={(event) => handleTextFields("name", event.target.value)}
-          />
-          </div>
-          <div>
+        <TextField
+          id="filled-basic"
+          label="Name"
+          variant="filled"
+          onChange={(event) => handleTextFields("name", event.target.value)}
+        />
+      </div>
+      <div>
         <FormControl className={classes.formControl}>
           {/* //DROP DOWN MENU COMPONENTS  */}
           <InputLabel htmlFor="ingredient_type-native-required">
@@ -151,19 +135,17 @@ function Ingredients() {
             <option value="texture">Texture</option>
           </Select>
           <FormHelperText>Required</FormHelperText>
-          </FormControl>
-          </div>
-          <div>
-            <FormControl>
+        </FormControl>
+      </div>
+      <div>
+        <FormControl>
           <InputLabel htmlFor="ingredient_type-native-required">
-            Type
+            Value
           </InputLabel>
           <Select
             native
             value={ingredient.value}
-            onChange={(event) =>
-              handleTextFields("value", event.target.value)
-            }
+            onChange={(event) => handleTextFields("value", event.target.value)}
             name="value"
             inputProps={{
               id: "value-native-required",
@@ -190,34 +172,35 @@ function Ingredients() {
             <option value="vodka">Vodka</option>
           </Select>
           <FormHelperText>Required</FormHelperText>
-          </FormControl>
-          </div>
-          <div>
-          <TextField
-            id="filled-basic"
-            label="Description"
-            variant="filled"
-            multiline
-            onChange={(event) =>
-              handleTextFields("description", event.target.value)
-            }
-          />
-          </div>
-          <button onClick={handleClick}>Add Ingredient</button>
-        
-      
+        </FormControl>
+      </div>
+      <div>
+        <TextField
+          id="filled-basic"
+          label="Description"
+          variant="filled"
+          multiline
+          onChange={(event) =>
+            handleTextFields("description", event.target.value)
+          }
+        />
+      </div>
+      <button onClick={handleClick}>Add Ingredient</button>
+
       <section>
         <div style={{ display: "flex", height: "100%" }}>
           <div style={{ flexGrow: 1 }}>
             <div style={{ height: 600, width: "100%" }}>
               <DataGrid
-               rows={ingredient}
-               columns={columns}
-               icons
-                checkboxSelection={true} />
-                <CheckBox></CheckBox>
-              {/* <DeleteIcon color = "secondary" onClick ={handleDelete}/> */}
+                onRowSelected={(e) =>  setRowArray([...rowArray], e.data)} 
+                rows={ingredient}
+                columns={columns}
+                checkboxSelection
+              />
+
+              <DeleteIcon color="secondary" onClick={handleDelete()} />
             </div>
+            <EditIcon />
           </div>
         </div>
       </section>

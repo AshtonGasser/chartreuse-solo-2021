@@ -8,6 +8,8 @@ const edit = (state = {}, action) => {
       return [...state, action.payload];
     case "EDIT_ONCHANGE":
       return [...state, action.payload];
+      case "EDIT_CLEAR":
+          return {ingredients: '' }
     default:
       return state;
   }
