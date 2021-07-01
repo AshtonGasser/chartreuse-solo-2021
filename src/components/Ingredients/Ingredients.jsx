@@ -112,14 +112,15 @@ function Ingredients() {
   return (
     <>
       <div>
-        <FormControl className={classes.formControl}>
           <TextField
             id="filled-basic"
             label="Name"
             variant="filled"
             onChange={(event) => handleTextFields("name", event.target.value)}
           />
-        
+          </div>
+          <div>
+        <FormControl className={classes.formControl}>
           {/* //DROP DOWN MENU COMPONENTS  */}
           <InputLabel htmlFor="ingredient_type-native-required">
             Type
@@ -156,7 +157,7 @@ function Ingredients() {
           </InputLabel>
           <Select
             native
-            value={ingredient.ingredient_type}
+            value={ingredient.value}
             onChange={(event) =>
               handleTextFields("value", event.target.value)
             }
@@ -188,7 +189,7 @@ function Ingredients() {
           <FormHelperText>Required</FormHelperText>
           </FormControl>
           </div>
-          <form>
+          <div>
           <TextField
             id="filled-basic"
             label="Description"
@@ -198,8 +199,9 @@ function Ingredients() {
               handleTextFields("description", event.target.value)
             }
           />
+          </div>
           <button onClick={handleClick}>Add Ingredient</button>
-          </form>
+        
       
       <section>
         <div style={{ display: "flex", height: "100%" }}>

@@ -4,7 +4,7 @@ const router = express.Router();
 const {
     rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
-
+//get
 router.get("/", rejectUnauthenticated, (req, res) => {
   console.log('this is our ingredient request:', req.user);
   console.log("got to ingredients.get");
@@ -20,7 +20,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-
+    //post
 router.post("/", rejectUnauthenticated, (req, res) => {
   console.log('this is what we are posting');
 
@@ -47,5 +47,7 @@ router.post("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
+
+//DELETE
 
 module.exports = router;
