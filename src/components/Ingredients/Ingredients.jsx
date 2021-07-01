@@ -104,7 +104,7 @@ function Ingredients() {
     },
     {
         field: "",
-        headerName: <DeleteIcon color = "secondary"/>, 
+        ColumnMenuIcon: DeleteIcon, 
         width:  50,
 
     }
@@ -210,8 +210,13 @@ function Ingredients() {
         <div style={{ display: "flex", height: "100%" }}>
           <div style={{ flexGrow: 1 }}>
             <div style={{ height: 600, width: "100%" }}>
-              <DataGrid rows={ingredient} columns={columns} checkboxSelection />
-              <DeleteIcon color = "secondary" onClick ={handleDelete}/>
+              <DataGrid
+               rows={ingredient}
+               columns={columns}
+               icons
+                checkboxSelection={true} />
+                <CheckBox></CheckBox>
+              {/* <DeleteIcon color = "secondary" onClick ={handleDelete}/> */}
             </div>
           </div>
         </div>
