@@ -9,7 +9,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-
+import DeleteIcon from '@material-ui/icons/Delete';
 //material-UI theme
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -36,10 +36,10 @@ function Ingredients() {
   });
 
   useEffect(() => {
-    dispatch({ type: "FETCH_INGREDIENT", payload: { id } });
+    dispatch({ type: "FETCH_INGREDIENT",});
   }, []);
   // items persist on refresh
-  const { id } = useParams();
+  
 
   //handles
   const handleClick = (event) => {
@@ -53,7 +53,6 @@ function Ingredients() {
     });
   };
   const handleTextFields = (key, value) => {
-    console.log("clicked handletextfields");
     setNewIngredient({ ...newIngredient, [key]: value });
   }; //end handleTextFields
 
@@ -61,14 +60,12 @@ function Ingredients() {
     console.log("clicked back to dash");
     history.push("/user");
   };
+  const handleDelete = () => {
+       console.log('clicked delete' )
+      dispatch({type: "DELETE_INGREDIENT", payload: {id:ingredient.id}})
+  }
 
-  //handle dropdown menu functions
-  const handleClickDropMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseDropMenu = () => {
-    setAnchorEl(null);
-  };
+
 
   // data grid table
   const columns = [
@@ -105,13 +102,19 @@ function Ingredients() {
       width: 180,
       //editable: true,
     },
+    {
+        field: "",
+        headerName: <DeleteIcon color = "secondary"/>, 
+        width:  50,
+
+    }
   ];
 
   //end of data grid setup
 
   return (
     <>
-      <div>
+      <div className={classes.root}>
           <TextField
             id="filled-basic"
             label="Name"
@@ -207,7 +210,8 @@ function Ingredients() {
         <div style={{ display: "flex", height: "100%" }}>
           <div style={{ flexGrow: 1 }}>
             <div style={{ height: 600, width: "100%" }}>
-              <DataGrid rows={ingredient} columns={columns} />
+              <DataGrid rows={ingredient} columns={columns} checkboxSelection />
+              <DeleteIcon color = "secondary" onClick ={handleDelete}/>
             </div>
           </div>
         </div>

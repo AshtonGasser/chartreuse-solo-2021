@@ -23,8 +23,8 @@ VALUES ('lemon juice', 'mixer', 'acid', 'fresh lemon juice strained is always be
 ('lime juice', 'mixer', 'acid', 'fresh lime juice strained is always best', 1),
 ('angostura bitters','enhancer','bitters','bitters are to cocktails as salt to food. they help improve and align flavor as well as bring their own', 1),
 ('orange bitters','enhancer','bitters', 'made from orange peels, cardamom, caraway seed, coriander, anise, burnt sugar', 1),
-('simple syrup', 'sweetener', 'sugar', '1 to 1 ratio of sugar and water', 1),
-('rich syrup', 'sweetener','sugar', '2 to 1 ratio of sugar and water', 1),
+('simple syrup', 'sugar', 'sugar', '1 to 1 ratio of sugar and water', 1),
+('rich syrup', 'sugar','sugar', '2 to 1 ratio of sugar and water', 1),
 ('egg white','texture','protein', 'Adding eggs to shaken drinks is a tradition that dates back more than a century. always buy the freshest eggs available'),
 ('campari','cordial','amaro-apéritif','Campari has a strong bittersweet flavor, with notes of orange peel, cherry, clove, and cinnamon. It`s one of the most bitter liqueurs used in modern drinks.', 1),
 ('sweet vermouth','cordial','fortified-wine', 'aromatized fortified wine, flavoured with various botanicals (roots, barks, flowers, seeds, herbs, and spices) and sometimes colored. always keep refridgerated after opening', 1),
@@ -55,7 +55,7 @@ VALUES ('lemon twist', 'garnish', 'aromatic', 1),
 ('mint', 'garnish', 'aromatic', 1),
 ('basil', 'garnish', 'aromatic', 1),
 ('rosemary', 'garnish', 'aromatic', 1),
-('lime wheel', 'garnish', 'garnish', 1),
+('lime wheel', 'garnish', 'decorative', 1),
 ('hotel ice', 'ice', 'ice', 1),
 ('crushed ice', 'ice', 'ice', 1),
 ('large ice cube', 'ice', 'ice', 1),
@@ -107,3 +107,4 @@ INSERT INTO "glassware" ("name", "glass_type", "glass_volume", "description")
 VALUES ('Zombie Glass', 'Highball',16.0 ,'This glass was originally designed to hold the Zombie cocktail, a blend of juices, rum, and liqueur. The zombie glass is the tallest and most narrow of all the cocktail glasses, which helps to highlight colorful drinks. Its large capacity is meant to hold cocktails that are made with several mixers.');
 INSERT INTO "glassware" ("name", "glass_type", "glass_volume", "description")
 VALUES ('Rocks Glass','lowball',10.0 ,'Also called an old fashioned or lowball glass, the rocks glass is short and wide with a sturdy bottom. Unlike the glasses above, which are designed to hold large amounts of ice and mixers, the rocks glass holds drinks made with mostly spirits. It`s named for the classic cocktail, the Old Fashioned, which contains bourbon whiskey with a couple dashes of Angostura bitters. The shape of the glass allows for muddling ingredients, stirring, and adding a large cube of ice or two.');
+

@@ -49,5 +49,38 @@ router.post("/", rejectUnauthenticated, (req, res) => {
 });
 
 //DELETE
+router.post('/delete_ingredients/:id',rejectUnauthenticated, (req, res) => {
+    const ingredientToDelete = req.params.id
+    //const queryText = `DELETE FROM "ingredients" WHERE "ingredients".id =$1`
+    const query = `DELETE FROM "ingredients" WHERE "user_id" = $1 AND "ingredients".id = $2 IN (SELECT "id" from )  > 1 "`
+    pool
+    .query(query, [req.user.id, ingredientToDelete, ])
+    .then((response) => {
+        console.log(`we deleted an ingredient with id ${ingredientToDelete}`);
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log("something went wrong in ingredientRouter.delete", err);
+        res.sendStatus(500);
+      });
+  }); //end toDo/Router.delete
+
+
+//delete map 
+// router.delete('/:id',rejectUnauthenticated, (req, res) => {
+//     console.log('in delete');
+//     let index = 0;
+//     // loop over all the items in the basket
+//     for (const ingredients of ingredients) {
+//         // check to see if the id matches
+//         if (req.params.id == ingredient.id) {
+//             // found the item, remove it from the array
+//             ingredient.splice(index, 1);
+//             break;
+//         }
+//         index += 1;
+//     }
+//     res.sendStatus(200);
+// });
 
 module.exports = router;
