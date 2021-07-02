@@ -13,8 +13,21 @@ function Cocktails() {
     const classes = useStyles();
     const ingredient = useSelector((store) => store.ingredientReducer.ingredient);
     const editIngredient = useSelector((store) => store.edit);
-    const Cocktail = useSelector((store) => store. cocktailReducer.Cocktail)
+    const cocktail = useSelector((store) => store. cocktailReducer.Cocktail)
+    const [newCocktail, setNewCocktail] = useState ({
+        name: "",
+        ingredients: "",
+        description:  "",
+        glassware: "", 
+        instruction: "",
+        
 
+
+    })
+    useEffect(() => {
+        dispatch({ type: "FETCH_INGREDIENT" }),
+        dispatch ({type: "FETCH_COCKTAIL" });
+      }, []);    
 
 }
 

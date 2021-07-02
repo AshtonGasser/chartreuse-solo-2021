@@ -24,7 +24,7 @@ function* addIngredient(action) {
     console.error(`${error} in POST`);
   }
 }
-
+//PUT INGREDIENT SAGA
 function* editIngredient(action) {
   console.log("in edit ingredients");
   try {
