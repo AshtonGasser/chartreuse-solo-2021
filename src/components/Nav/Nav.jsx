@@ -44,6 +44,9 @@ function Nav() {
         <Link to="/ingredients" className="navLink">
           Ingredients
         </Link>
+        <Link to="/cocktails" className="navLink">
+          Cocktails
+        </Link>
       </div>
     </div>
   );

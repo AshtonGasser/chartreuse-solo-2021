@@ -108,16 +108,19 @@ function App() {
           >
             <Ingredients/>
           </ProtectedRoute>
-          {/* <ProtectedRoute
-          exact 
-          path ="/allcocktails"
-          authRedirect ="/user">
-
-          </ProtectedRoute>
+ 
           <ProtectedRoute
           exact 
           path ="/cocktails"
-          authRedirect ="/user">
+          ></ProtectedRoute>
+
+
+          {/* <ProtectedRoute
+          exact 
+          path ="/allcocktails"
+          >
+          </ProtectedRoute>
+          
             
           </ProtectedRoute>
           <ProtectedRoute
