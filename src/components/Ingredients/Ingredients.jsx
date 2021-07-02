@@ -12,7 +12,6 @@ import Select from "@material-ui/core/Select";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
-
 //material-UI theme
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -66,13 +65,20 @@ function Ingredients() {
 
   const handleDelete = () => {
     console.log("clicked delete");
-    dispatch({ type: "DELETE_INGREDIENTS", payload: { ids: selectedIngredients } });
+    dispatch({
+      type: "DELETE_INGREDIENTS",
+      payload: { ids: selectedIngredients },
+    });
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = async ({ id, field, props }, event) => {
     dispatch({
-      type: "SET_EDIT_INGREDIENT",
-      payload: { id: editIngredient.id },
+      type: "EDIT_INGREDIENT",
+      payload: { 
+        id: id, 
+        field: field,
+        value: props.value,
+      },
     });
   };
 
@@ -80,13 +86,14 @@ function Ingredients() {
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
-    { field: "name", headerName: "Name", width: 180 },
+    { field: "name", headerName: "Name", width: 180, editable: true },
     { field: "ingredient_type", headerName: "type", width: 150, value: "text" },
     { field: "value", headerName: "Value", width: 150, value: "text" },
     {
       field: "description",
       headerName: "Description",
-      type: "character varying(500)",
+      // type: "character varying(500)",
+      editable: true,
       width: 220,
     },
 
@@ -192,15 +199,16 @@ function Ingredients() {
           <div style={{ flexGrow: 1 }}>
             <div style={{ height: 600, width: "100%" }}>
               <DataGrid
-                onSelectionModelChange={(e) => setSelectedIngredients(e.selectionModel)}
+                onSelectionModelChange={(e) =>
+                  setSelectedIngredients(e.selectionModel)
+                }
+                onEditCellChangeCommitted={handleEditClick}
                 rows={ingredient}
                 columns={columns}
                 checkboxSelection
               />
-                
-             
             </div>
-            <EditIcon onClick={handleEditClick} />
+            {/* <EditIcon onClick={handleEditClick} /> */}
           </div>
         </div>
       </section>

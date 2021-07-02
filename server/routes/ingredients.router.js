@@ -80,8 +80,32 @@ router.post("/delete-ingredients", rejectUnauthenticated, (req, res) => {
       });
 });
 
+router.put('/:id',rejectUnauthenticated, (req, res) => {
+  const id = req.params.id;
+  //field , value = name , description 
+  const {field, value} = req.body;
+  const params = [value, id];
+  
+  let query = `UPDATE "ingredients" SET ${field} = $1 WHERE id = $2`
+  if (req.user.id != 1) {
+    query += ` AND user_id = $3`;
+    params.push(req.user.id)
+  }
+
+  pool
+    .query(query, params)
+    .then((response) => {
+        console.log(`we updated ingredient with id ${id}`);
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log("something went wrong in put.Router.updateIngredients", err);
+        res.sendStatus(500);
+      });
+});
+
 //DELETE
-router.delete('/ingredients/:id',rejectUnauthenticated, (req, res) => {
+router.delete('/:id',rejectUnauthenticated, (req, res) => {
   console.log('in router.delete');
     const ingredientToDelete = req.params.id
     //const queryText = `DELETE FROM "ingredients" WHERE "ingredients".id =$1`
@@ -97,23 +121,5 @@ router.delete('/ingredients/:id',rejectUnauthenticated, (req, res) => {
         res.sendStatus(500);
       });
   }); //end toDo/Router.delete
-
-
-//delete map 
-// router.delete('/:id',rejectUnauthenticated, (req, res) => {
-//     console.log('in delete');
-//     let index = 0;
-//     // loop over all the items in the basket
-//     for (const ingredients of ingredients) {
-//         // check to see if the id matches
-//         if (req.params.id == ingredient.id) {
-//             // found the item, remove it from the array
-//             ingredient.splice(index, 1);
-//             break;
-//         }
-//         index += 1;
-//     }
-//     res.sendStatus(200);
-// });
 
 module.exports = router;
