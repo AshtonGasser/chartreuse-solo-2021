@@ -7,16 +7,7 @@ CREATE TABLE "user" (
 INSERT INTO "user" ("username", "password", "user_type")
 VALUES ('admin', '$2a$10$SMygShuLha1Zvwc3Qs3XbucFlsfxBGed/PaROMXnvDtRuylj3A/2i', 'admin');
 
-CREATE TABLE "ingredients" (
-	"id" SERIAL PRIMARY KEY, 
-	"name" varchar(120) NOT NULL,
-	"ingredient_type" varchar(255) NOT NULL,
-	"value" TEXT ,
-	"description" varchar(500) NULL,
-	"created" DATE NULL DEFAULT NOW(),
-	"user_id" int REFERENCES "user" NOT NULL
-	
-);
+
 
 INSERT INTO "ingredients" ("name", "ingredient_type", "value", "description", "user_id" )
 VALUES ('lemon juice', 'mixer', 'acid', 'fresh lemon juice strained is always best', 1),
@@ -83,6 +74,16 @@ CREATE TABLE "cocktails_ingredients" (
 	"ingredient_id" INT REFERENCES "ingredients" ON DELETE CASCADE NOT NULL,
 	"measurement_type" varchar(255) NOT NULL,
 	"number" DECIMAL NOT NULL
+);
+CREATE TABLE "ingredients" (
+	"id" SERIAL PRIMARY KEY, 
+	"name" varchar(120) NOT NULL,
+	"ingredient_type" varchar(255) NOT NULL,
+	"value" TEXT ,
+	"description" varchar(500) NULL,
+	"created" DATE NULL DEFAULT NOW(),
+	"user_id" int REFERENCES "user" NOT NULL
+	
 );
 
 CREATE TABLE "glassware" (

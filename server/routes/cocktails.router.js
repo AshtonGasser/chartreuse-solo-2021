@@ -1,12 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../modules/pool");
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 
 // GET Route⬇
-router.get ('/', (req,res) => {
+router.get ('/', rejectUnauthenticated, (req,res) => {
     console.log('got to cocktails.router');
+    let cocktailId = req.query.id
     pool
-    .query(`SELECT * FROM "cocktails";`)
+    .query(`SELECT "cocktails".name, "ingredients".name , "cocktails_ingredients" FROM "cocktails"
+    JOIN "cocktails_ingredients" ON "cocktails".id = "cocktails_ingredients".cocktail_id
+    JOIN "ingredients" ON  "cocktails_ingredients".ingredient_id = "ingredients".id
+    WHERE "cocktails".id = $2;
+    `)
     .then((result) => {
         res.send(result.rows);
       })
@@ -18,7 +26,7 @@ router.get ('/', (req,res) => {
 
 
 // Post Route⬇
-router.post('/', (req,res) => {
+router.post('/',rejectUnauthenticated, (req,res) => {
     //sanitize , object model
     const {name, description, instructions, ingredients, glass} = req.body
     let queryText = `INSERT INTO "cocktails" (name, description, instructions, ingredients, glass )

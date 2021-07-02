@@ -19,7 +19,8 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-import Ingredients from "../Ingredients/Ingredients"
+import Ingredients from "../Ingredients/Ingredients.jsx"
+import Cocktails from "../Cocktails/Cocktails.jsx"
 import './App.css';
 
 function App() {
@@ -104,7 +105,6 @@ function App() {
           <ProtectedRoute 
           exact
           path="/ingredients"
-          //authRedirect="/user"
           >
             <Ingredients/>
           </ProtectedRoute>
@@ -112,7 +112,9 @@ function App() {
           <ProtectedRoute
           exact 
           path ="/cocktails"
-          ></ProtectedRoute>
+          >
+            <Cocktails/>
+          </ProtectedRoute>
 
 
           {/* <ProtectedRoute

@@ -34,7 +34,7 @@ function Ingredients() {
   const [newIngredient, setNewIngredient] = useState({
     name: "",
     ingredient_type: "",
-    value: "",
+    quality: "",
     description: "",
   });
 
@@ -85,10 +85,10 @@ function Ingredients() {
   // data grid table
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 100 },
     { field: "name", headerName: "Name", width: 180, editable: true },
     { field: "ingredient_type", headerName: "type", width: 150, value: "text" },
-    { field: "value", headerName: "Value", width: 150, value: "text" },
+    { field: "quality", headerName: "Quality", width: 150, value: "text" },
     {
       field: "description",
       headerName: "Description",
@@ -98,7 +98,6 @@ function Ingredients() {
     },
 
     { field: "created", headerName: "Date Created", type: "date", width: 180 },
-    { field: "", ColumnMenuIcon: DeleteIcon, width: 50 },
   ];
 
   //end of data grid setup
@@ -140,6 +139,7 @@ function Ingredients() {
             <option value="sugar">Sugar</option>
             <option value="spirit">Spirit</option>
             <option value="texture">Texture</option>
+            <option value ="wine">Wine</option>
           </Select>
           <FormHelperText>Required</FormHelperText>
         </FormControl>
@@ -147,23 +147,23 @@ function Ingredients() {
       <div>
         <FormControl>
           <InputLabel htmlFor="ingredient_type-native-required">
-            Value
+            Quality
           </InputLabel>
           <Select
             native
-            value={ingredient.value}
-            onChange={(event) => handleTextFields("value", event.target.value)}
-            name="value"
-            inputProps={{
-              id: "value-native-required",
-            }}
+            value={ingredient.quality}
+            onChange={(event) => handleTextFields("quality", event.target.value)}
+            name="Quality"
           >
             <option aria-label="None" value="" />
             <option value="acid">Acid</option>
+            <option value="amaro">Amaro</option>
             <option value="amaro-apéritif">amaro-apéritif</option>
+            <option value="amaro-digestif">amaro-digestif</option>
             <option value="aromatic">Aromatic</option>
             <option value="bitters">Bitters</option>
             <option value="bubbles">Bubbles</option>
+            <option value="brandy">Brandy</option>
             <option value="decorative">Decorative</option>
             <option value="edible">Edible</option>
             <option value="fortified-wine">Fortified Wine</option>
@@ -178,7 +178,6 @@ function Ingredients() {
             <option value="wine">wine</option>
             <option value="vodka">Vodka</option>
           </Select>
-          <FormHelperText>Required</FormHelperText>
         </FormControl>
       </div>
       <div>
@@ -197,7 +196,8 @@ function Ingredients() {
       <section>
         <div style={{ display: "flex", height: "100%" }}>
           <div style={{ flexGrow: 1 }}>
-            <div style={{ height: 600, width: "100%" }}>
+            <div style={{ height: 500, width: "100%" }}>
+
               <DataGrid
                 onSelectionModelChange={(e) =>
                   setSelectedIngredients(e.selectionModel)
