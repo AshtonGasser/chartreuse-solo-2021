@@ -12,8 +12,8 @@ function* fetchCocktail() {
       }
 }
 
-function* cocktailFetchSaga() {
+function* cocktailSaga() {
     yield takeLatest("FETCH_COCKTAIL", fetchCocktail)
 }
 
-export default cocktailFetchSaga
+export default cocktailSaga
