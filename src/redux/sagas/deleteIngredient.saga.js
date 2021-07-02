@@ -3,8 +3,8 @@ import axios from "axios";
 
 function* deleteIngredient (action) {
     try {
-        yield axios.delete(`/ingredient/${action.payload.id}`);
-        yield put ({ type: "FETCH_INGREDIENT"})
+        yield axios.delete(`/ingredients/${action.payload.id}`);
+        yield put ({ type: "FETCH_INGREDIENT" })
     }catch (error) {
         console.error(`${error}in DELETE `);
       }

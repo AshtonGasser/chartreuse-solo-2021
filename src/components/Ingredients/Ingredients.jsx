@@ -27,7 +27,8 @@ function Ingredients() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const ingredient = useSelector((store) => store.ingredientReducer.ingredient);
-  const [rowArray, setRowArray] = useState([])
+  const editIngredient = useSelector((store) => store.edit);
+  const [rowArray, setRowArray] = useState([]);
 
   const [newIngredient, setNewIngredient] = useState({
     name: "",
@@ -55,9 +56,7 @@ function Ingredients() {
   const handleTextFields = (key, value) => {
     setNewIngredient({ ...newIngredient, [key]: value });
   }; //end handleTextFields
-  const handleCheckBox = (event) => {
-    console.log("clicked checkbox", ingredient.id);
-  };
+
   const handleBack = () => {
     console.log("clicked back to dash");
     history.push("/user");
@@ -66,13 +65,25 @@ function Ingredients() {
     console.log("clicked delete");
     dispatch({ type: "DELETE_INGREDIENT", payload: { id: ingredient.id } });
   };
+const handleCheckBox = (e) => {
+  setRowArray([...rowArray, e.data])
+  if(rowArray != e.data){
+    rowArray.splice(e.data)
+  }
+  console.log([]);
+  //remove item from rowArray
+  //if(rowArray contains ingredient.id remove  if rowArray does not contain selected ingredient.id then add)
+}
+  const handleEditClick = () => {
+    dispatch({type: 'SET_EDIT_INGREDIENT', payload: {id: editIngredient.id}})
+  };
 
-//   const handleRowSelect = (event) =>{
-//     //event.preventDefault()
-//     setRowArray([...rowArray, event.target.value])
-//   }
+  //   const handleRowSelect = (event) =>{
+  //     //event.preventDefault()
+  //     setRowArray([...rowArray, event.target.value])
+  //   }
   // data grid table
- 
+
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
 
@@ -95,7 +106,7 @@ function Ingredients() {
   ];
 
   //end of data grid setup
- console.log('in rowArray', rowArray);
+  console.log("in rowArray", rowArray);
   return (
     <>
       <div className={classes.root}>
@@ -192,15 +203,16 @@ function Ingredients() {
           <div style={{ flexGrow: 1 }}>
             <div style={{ height: 600, width: "100%" }}>
               <DataGrid
-                onRowSelected={(e) =>  setRowArray([...rowArray], e.data)} 
+                onRowSelected={handleCheckBox}
+                
                 rows={ingredient}
                 columns={columns}
                 checkboxSelection
               />
 
-              <DeleteIcon color="secondary" onClick={handleDelete()} />
+              <DeleteIcon color="secondary" onClick={handleDelete} />
             </div>
-            <EditIcon />
+            <EditIcon onClick = {handleEditClick} />
           </div>
         </div>
       </section>

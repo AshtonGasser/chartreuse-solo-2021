@@ -49,7 +49,8 @@ router.post("/", rejectUnauthenticated, (req, res) => {
 });
 
 //DELETE
-router.post('/delete_ingredients/:id',rejectUnauthenticated, (req, res) => {
+router.delete('/ingredients/:id',rejectUnauthenticated, (req, res) => {
+  console.log('in router.delete');
     const ingredientToDelete = req.params.id
     //const queryText = `DELETE FROM "ingredients" WHERE "ingredients".id =$1`
     const query = `DELETE FROM "ingredients" WHERE "user_id" = $1 AND "ingredients".id = $2 IN (SELECT "id" from )  > 1 "`
