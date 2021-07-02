@@ -14,12 +14,12 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
-import UserPage from '../UserDashboard/UserDashboard';
+import UserDashboard from '../UserDashboard/UserDashboard';
 import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-
+import Ingredients from "../Ingredients/Ingredients"
 import './App.css';
 
 function App() {
@@ -55,7 +55,7 @@ function App() {
             exact
             path="/user"
           >
-            <userDashboard />
+            <UserDashboard />
           </ProtectedRoute>
 
           <ProtectedRoute
@@ -101,6 +101,32 @@ function App() {
           >
             <LandingPage />
           </ProtectedRoute>
+          <ProtectedRoute 
+          exact
+          path="/ingredients"
+          //authRedirect="/user"
+          >
+            <Ingredients/>
+          </ProtectedRoute>
+          {/* <ProtectedRoute
+          exact 
+          path ="/allcocktails"
+          authRedirect ="/user">
+
+          </ProtectedRoute>
+          <ProtectedRoute
+          exact 
+          path ="/cocktails"
+          authRedirect ="/user">
+            
+          </ProtectedRoute>
+          <ProtectedRoute
+          exact 
+          path ="/edit"
+          authRedirect ="/user">
+            
+          </ProtectedRoute> */}
+       
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
