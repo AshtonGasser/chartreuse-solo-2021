@@ -11,6 +11,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+
+
 //material-UI theme
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -28,7 +30,7 @@ function Ingredients() {
   const classes = useStyles();
   const ingredient = useSelector((store) => store.ingredientReducer.ingredient);
   const editIngredient = useSelector((store) => store.edit);
-  const [rowArray, setRowArray] = useState([]);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   const [newIngredient, setNewIngredient] = useState({
     name: "",
@@ -61,38 +63,26 @@ function Ingredients() {
     console.log("clicked back to dash");
     history.push("/user");
   };
+
   const handleDelete = () => {
     console.log("clicked delete");
-    dispatch({ type: "DELETE_INGREDIENT", payload: { id: ingredient.id } });
-  };
-const handleCheckBox = (e) => {
-  setRowArray([...rowArray, e.data])
-  if(rowArray != e.data){
-    rowArray.splice(e.data)
-  }
-  console.log([]);
-  //remove item from rowArray
-  //if(rowArray contains ingredient.id remove  if rowArray does not contain selected ingredient.id then add)
-}
-  const handleEditClick = () => {
-    dispatch({type: 'SET_EDIT_INGREDIENT', payload: {id: editIngredient.id}})
+    dispatch({ type: "DELETE_INGREDIENTS", payload: { ids: selectedIngredients } });
   };
 
-  //   const handleRowSelect = (event) =>{
-  //     //event.preventDefault()
-  //     setRowArray([...rowArray, event.target.value])
-  //   }
+  const handleEditClick = () => {
+    dispatch({
+      type: "SET_EDIT_INGREDIENT",
+      payload: { id: editIngredient.id },
+    });
+  };
+
   // data grid table
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
-
     { field: "name", headerName: "Name", width: 180 },
-
     { field: "ingredient_type", headerName: "type", width: 150, value: "text" },
-
     { field: "value", headerName: "Value", width: 150, value: "text" },
-
     {
       field: "description",
       headerName: "Description",
@@ -101,12 +91,11 @@ const handleCheckBox = (e) => {
     },
 
     { field: "created", headerName: "Date Created", type: "date", width: 180 },
-
     { field: "", ColumnMenuIcon: DeleteIcon, width: 50 },
   ];
 
   //end of data grid setup
-  console.log("in rowArray", rowArray);
+  console.log("in selectedIngredients", selectedIngredients);
   return (
     <>
       <div className={classes.root}>
@@ -197,22 +186,21 @@ const handleCheckBox = (e) => {
         />
       </div>
       <button onClick={handleClick}>Add Ingredient</button>
-
+      <DeleteIcon color="secondary" onClick={handleDelete} />
       <section>
         <div style={{ display: "flex", height: "100%" }}>
           <div style={{ flexGrow: 1 }}>
             <div style={{ height: 600, width: "100%" }}>
               <DataGrid
-                onRowSelected={handleCheckBox}
-                
+                onSelectionModelChange={(e) => setSelectedIngredients(e.selectionModel)}
                 rows={ingredient}
                 columns={columns}
                 checkboxSelection
               />
-
-              <DeleteIcon color="secondary" onClick={handleDelete} />
+                
+             
             </div>
-            <EditIcon onClick = {handleEditClick} />
+            <EditIcon onClick={handleEditClick} />
           </div>
         </div>
       </section>

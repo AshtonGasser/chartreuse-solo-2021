@@ -20,7 +20,8 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-    //post
+    
+//post
 router.post("/", rejectUnauthenticated, (req, res) => {
   console.log('this is what we are posting');
 
@@ -48,12 +49,43 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post("/delete-ingredients", rejectUnauthenticated, (req, res) => {
+  console.log('in router.deleteIngredients');
+  const ids = req.body.ids;
+  if (!ids || ids.length == 0) {
+    res.sendStatus(400); // Bad Request
+  }
+
+  const params = [...ids];
+  const placeholders = [];
+  for (let i=1; i<=params.length; i++) {
+    placeholders.push(`$${i}`);
+  }
+
+  let query = `DELETE FROM ingredients WHERE ingredients.id IN (${placeholders.join(',')})`;
+  if (req.user.id != 1) {
+    query += ` AND user_id = $${params.length + 1}`;
+    params.push(req.user.id)
+  }
+  
+  pool
+    .query(query, params)
+    .then((response) => {
+        console.log(`we deleted ingredients with ids ${ids}`);
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log("something went wrong in ingredientRouter.deleteIngredients", err);
+        res.sendStatus(500);
+      });
+});
+
 //DELETE
 router.delete('/ingredients/:id',rejectUnauthenticated, (req, res) => {
   console.log('in router.delete');
     const ingredientToDelete = req.params.id
     //const queryText = `DELETE FROM "ingredients" WHERE "ingredients".id =$1`
-    const query = `DELETE FROM "ingredients" WHERE "user_id" = $1 AND "ingredients".id = $2 IN (SELECT "id" from )  > 1 "`
+    const query = `DELETE FROM "ingredients" WHERE "user_id" = $1 AND "ingredients".id = $2 IN   > 1 "`
     pool
     .query(query, [req.user.id, ingredientToDelete, ])
     .then((response) => {
