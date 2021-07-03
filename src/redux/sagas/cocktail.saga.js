@@ -7,7 +7,7 @@ function* fetchCocktail() {
     console.log('in fetch ingredient');
     //get all ingredients from db
     try{
-        const cocktail = yield axios.get("/api/cocktail");
+        const cocktail = yield axios.get(`/api/cocktail/${action.payload}`);
         console.log(`in fetchCocktail generator`);
         yield put({type: "SET_COCKTAIL", payload: cocktail.data})
     }catch {

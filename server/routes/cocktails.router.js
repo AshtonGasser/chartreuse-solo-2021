@@ -6,15 +6,20 @@ const {
 } = require('../modules/authentication-middleware');
 
 // GET Route⬇
-router.get ('/', rejectUnauthenticated, (req,res) => {
+
+//post id + user_id
+router.get('/cocktails/:id', rejectUnauthenticated, (req,res) => {
+  //console.log('this is our cocktai; request:', req.user);
+  const cocktail_ID = req.params.id 
     console.log('got to cocktails.router');
-    let cocktailId = req.query.id
-    pool
-    .query(`SELECT "cocktails".name, "ingredients".name , "cocktails_ingredients" FROM "cocktails"
+    //let myCocktailId = req.query.id
+    let myQuery= `SELECT "cocktails".name AS "cocktail", ARRAY_AGG( "ingredients".name) AS "ingredients", ARRAY_AGG("cocktails_ingredients".measurement_type) AS "measurement", ARRAY_AGG("cocktails_ingredients".number) FROM "cocktails"
     JOIN "cocktails_ingredients" ON "cocktails".id = "cocktails_ingredients".cocktail_id
     JOIN "ingredients" ON  "cocktails_ingredients".ingredient_id = "ingredients".id
-    WHERE "cocktails".id = $2;
-    `)
+    WHERE "cocktails".id = $1
+    GROUP BY cocktails.id;`
+
+    pool.query(myQuery, cocktail_ID)
     .then((result) => {
         res.send(result.rows);
       })

@@ -111,11 +111,18 @@ function App() {
  
           <ProtectedRoute
           exact 
+          path ="/cocktails/:id"
+          >
+            <Cocktails/>
+            
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          exact 
           path ="/cocktails"
           >
             <Cocktails/>
-          </ProtectedRoute>
-
+            </ProtectedRoute>
 
           {/* <ProtectedRoute
           exact 
