@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 const cocktail = (state = [], action) => {
     switch (action.type) {
         case 'SET_COCKTAIL':
-            return action.payload;
+            return [...state, action.payload];
         default:
             return state;
     }

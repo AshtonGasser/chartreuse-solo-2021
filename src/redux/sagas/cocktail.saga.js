@@ -4,7 +4,7 @@ import axios from "axios";
 //cocktail get function
 
 function* fetchCocktail() {
-    console.log('in fetch ingredient');
+    console.log('in fetch cocktail');
     //get all ingredients from db
     try{
         const cocktail = yield axios.get(`/api/cocktail/${action.payload}`);
