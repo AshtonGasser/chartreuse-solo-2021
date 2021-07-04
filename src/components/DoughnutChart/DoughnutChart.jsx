@@ -64,7 +64,7 @@ const getData = (cocktail) => {
   };
 };
 
-const CocktailChart = (props) => (
+const DoughnutChart = (props) => (
   <>
     <div className="header">
       <h1 className="title">{props.cocktail.name}</h1>
@@ -77,4 +77,4 @@ DoughnutChart.propTypes = {
     cocktail: PropTypes.node,
   };
 
-  export default CocktailChart 
+  export default DoughnutChart 
