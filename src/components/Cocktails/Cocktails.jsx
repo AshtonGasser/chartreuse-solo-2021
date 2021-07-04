@@ -20,6 +20,8 @@ import { Card, ButtonGroup } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,21 +53,18 @@ const useStyles = makeStyles((theme) => ({
 function Cocktails() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { id } = useParams();
+  // const { id } = useParams(); // for use later when we implement EDIT
   const classes = useStyles();
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const ingredient = useSelector((store) => store.ingredientReducer.ingredient);
   const editIngredient = useSelector((store) => store.edit);
-  const cocktail = useSelector((store) => store.cocktailReducer.cocktail);
+
+  const [myName, setMyName] = useState();
+  const [myDescription, setMyDescription] = useState();
+  const [myInstructions, setMyInstructions] = useState();
   const [myIngredients, setMyIngredients] = useState([]);
-  const [newCocktail, setNewCocktail] = useState({
-    name: "",
-    ingredients: "",
-    description: "",
-    glassware: "",
-    instruction: "",
-  });
+
   const MyButton = styled(Button)({
     boxShadow: "0 3px 5px 2px rgba(0,0,0,0.12)",
     border: 0,
@@ -74,20 +73,11 @@ function Cocktails() {
     padding: "0 30px",
     background: "#666666",
   });
+
   useEffect(() => {
-    dispatch({ type: "FETCH_INGREDIENT", payload: id });
+    dispatch({ type: "FETCH_INGREDIENT" });
+    // later when we edit a cocktail, we will also need to get the cocktail from the database here as well
   }, []);
-
-  const handleSelectIngredientsClick = (event) => {
-    event.preventDefault();
-    console.log("selected ingredients:", myIngredients);
-
-    dispatch({
-      type: "SET_COCKTAIL",
-      payload: myIngredients,
-    });
-  };
-  //array for our useState to payload
 
   //array for our search bar
   const nameArray = ingredient.map((item) => {
@@ -109,12 +99,10 @@ function Cocktails() {
             disableCloseOnSelect
             getOptionLabel={(option) => option.name}
             getOptionSelected={(option, value) => option.name === value.name}
-            onChange={(event, myIngredients) => {
-              setMyIngredients(...myIngredients, event.target.value);
-              console.log("selected ingredients:", myIngredients);
+            onChange={(e, value) => {
+              setMyIngredients(value);
+              console.log("selected ingredients:", value);
             }}
-            // onChange={(event) => handleIngredients(...myIngredients, event.target.value)}
-
             renderOption={(option, { selected }) => (
               <React.Fragment>
                 <Checkbox
@@ -136,41 +124,107 @@ function Cocktails() {
               />
             )}
           />
-          <MyButton
+          {/*<MyButton
             color="primary"
-            onClick={handleSelectIngredientsClick}
+            onClick={() => setMyIngredients("ingredients", myIngredients)}
             className="myButton"
           >
             Submit
           </MyButton>
+          </div>*/}
         </div>
-      </div>
-      {/* card to append selected ingredients to  */}
-      <div>
-        <Card className={classes.root} variant="outlined">
-          <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              ingredient list to post to chart
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Submit</Button>
-          </CardActions>
-        </Card>
-      </div>
-      <div className={classes.GroupButtons}>
-        <ButtonGroup
-          color="secondary"
-          aria-label="outlined secondary button group"
-        >
-          <Button>Save</Button>
-          <Button>Load</Button>
-          <Button>Delete</Button>
-        </ButtonGroup>
+        {/* card to append selected ingredients to  */}
+        <div>
+          <Card className={classes.root} variant="outlined">
+            <CardContent>
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
+              >
+                ingredient list to post to chart
+              </Typography>
+
+              {!myIngredients?.length
+                ? null
+                : myIngredients.map((ingredient) => (
+                    <div key={ingredient.id}>
+                      <span>{ingredient.name}</span>
+
+                      <TextField
+                        type="number"
+                        InputProps={{
+                          inputProps: {
+                            min: 1,
+                            step: "0.25"
+                          },
+                        }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      ></TextField>
+
+                      <FormControl className={classes.formControl}>
+                        <InputLabel id="measurement_type">Unit</InputLabel>
+                        <Select
+                          labelId="Measurement"
+                          id="demo-simple-select-autowidth"
+                          value={ingredient.measurement_type}
+                          onChange={(event) => {
+                            // myIngredients (state for all ingredients)
+                            // ingredient (current ingredient)
+                            // TODO: for this ingredient id, update the unit for only that ingredient in myIngredients onChange
+                          }}
+                          autoWidth
+                        >
+                          <option aria-label="none" value="" />
+                          <option value="ounces">Oz</option>
+                          <option value="ml">ml</option>
+                          <option value="dash">dash</option>
+                          <option value="ml">Barspoon</option>
+                        </Select>
+                        <FormHelperText>Measurement</FormHelperText>
+                      </FormControl>
+                    </div>
+                  ))}
+            </CardContent>
+            {/*<CardActions>
+            <MyButton
+             color="secondary"
+             size="small">
+               Submit
+            </MyButton>
+          </CardActions>*/}
+          </Card>
+        </div>
+        <div className={classes.GroupButtons}>
+          <ButtonGroup
+            color="secondary"
+            aria-label="outlined secondary button group"
+          >
+            <Button>Save</Button>
+            <Button>Load</Button>
+            <Button>Delete</Button>
+          </ButtonGroup>
+        </div>
+        <div>
+          <textarea
+            placeholder="Steps"
+            rows="6"
+            cols="50"
+            onChange={(event) => setMyInstructions(event.target.value)}
+          />
+        </div>
+
+        <TextField
+          id="filled-basic"
+          label="Description"
+          variant="filled"
+          multiline
+          rows="4"
+          rowsMax="20"
+          onChange={(event) => setMyDescription(event.target.value)}
+        />
       </div>
     </>
   );

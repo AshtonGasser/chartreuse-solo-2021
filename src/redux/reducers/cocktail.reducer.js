@@ -1,20 +1,15 @@
-import { combineReducers } from 'redux';
 
-const cocktail = (state = [], action) => {
+const defaultState = [];
+
+const cocktailReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case 'SET_COCKTAIL':
+        case 'SET_USER_COCKTAILS':
+            return action.payload;
+        case 'ADD_USER_COCKTAIL':
             return [...state, action.payload];
         default:
             return state;
     }
 }
-const newCocktail = (state = [], action) => {
-    switch (action.type) {
-        case 'ADD_COCKTAIL':
-            return action.payload;
-            default:
-                return state;
-    }
-}
 
-export default combineReducers({cocktail, newCocktail})
+export default cocktailReducer;
