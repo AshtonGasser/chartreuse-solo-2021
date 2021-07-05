@@ -1,31 +1,32 @@
-import React , { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import ChartComponent, { Bubble, Bar } from "react-chartjs-2";
 
 const DoughnutChart = ({ name, ingredients }) => {
   const [data, setData] = useState({});
   const [colors, setColors] = useState([]);
-  const [chartType, setChartType] = useState('doughnut');
-  
+  const [chartType, setChartType] = useState("doughnut");
+
+  //random color generator 
   const randomColor = () => {
-    const r = Math.floor(Math.random()*256);
-    const g = Math.floor(Math.random()*256);
-    const b = Math.floor(Math.random()*256);
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
     return `rgba(${r}, ${g}, ${b}, 0.2)`;
   };
-
+ //randomize for opacity 
   const changeOpacity = (color, opacity) => {
-    const rgb = color.substring(0, color.lastIndexOf(','));
+    const rgb = color.substring(0, color.lastIndexOf(","));
     return `${rgb}, ${opacity})`;
-  }
-  
+  };
+
   const populateColors = (num) => {
     const nextColors = [...colors];
     if (num < 0) {
-      for (let i=0; i>num; i--) {
+      for (let i = 0; i > num; i--) {
         nextColors.pop();
       }
     } else if (num > 0) {
-      for (let i=0; i<num; i++) {
+      for (let i = 0; i < num; i++) {
         nextColors.push(randomColor());
       }
     }
@@ -41,26 +42,28 @@ const DoughnutChart = ({ name, ingredients }) => {
     const mlPerOunce = 29.5735;
     const mlPerBarspoon = 5;
     const mlPerDash = 0.9;
+ 
+    //logic to calculate ml
     
     setData({
-      labels: ingredients?.map(ingredient => ingredient.name),
+      labels: ingredients?.map((ingredient) => ingredient.name),
       datasets: [
         {
-          label: '# of milliliters',
-          data: ingredients?.map(ingredient => {
-            switch(ingredient.measurement_type) {
-              case 'ounces':
+          label: "# of milliliters",
+          data: ingredients?.map((ingredient) => {
+            switch (ingredient.measurement_type) {
+              case "ounces":
                 return Math.round(ingredient.quantity * mlPerOunce);
-              case 'barspoon':
+              case "barspoon":
                 return ingredient.quantity * mlPerBarspoon;
-              case 'dash':
+              case "dash":
                 return Math.round(ingredient.quantity * mlPerDash);
               default:
                 return ingredient.quantity;
             }
           }),
           backgroundColor: dataColors,
-          borderColor: dataColors.map(color => changeOpacity(color, 1)),
+          borderColor: dataColors.map((color) => changeOpacity(color, 1)),
           borderWidth: 1,
         },
       ],
@@ -68,21 +71,24 @@ const DoughnutChart = ({ name, ingredients }) => {
   }, [ingredients, chartType]);
 
   const getCurrentChart = () => {
-    switch(chartType) {
-      case 'bubble':
-        return <Bubble data={data} />
-      case 'bar':
-        return <Bar data={data} /> 
+    switch (chartType) {
+      case "bubble":
+        return <Bubble data={data} />;
+      case "bar":
+        return <Bar data={data} />;
     }
-    return <ChartComponent data={data} type={chartType} />
-  }
+    return <ChartComponent data={data} type={chartType} />;
+  };
 
   // 'line' | 'bar' | 'horizontalBar' | 'radar' | 'doughnut' | 'polarArea' | 'bubble' | 'pie' | 'scatter'
   return (
     <div style={{ width: 400, height: 500 }}>
       <div className="header">
         <h1 className="title">{name}</h1>
-        <select value={chartType} onChange={(event) => setChartType(event.target.value)}>
+        <select
+          value={chartType}
+          onChange={(event) => setChartType(event.target.value)}
+        >
           <option value="line">line</option>
           <option value="bar">bar</option>
           <option value="horizontalBar">horizontal bar</option>

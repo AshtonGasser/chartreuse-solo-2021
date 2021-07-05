@@ -90,7 +90,7 @@ router.delete("/:id", rejectUnauthenticated, (req, res) => {
       console.log("something went wrong in ingredientRouter.delete", err);
       res.sendStatus(500);
     });
-}); //end toDo/Router.delete
+}); //end cocktail/Router.delete
 
 // BULK DELETE  Route⬇
 router.post("/delete-ingredients", rejectUnauthenticated, (req, res) => {

@@ -161,6 +161,7 @@ function Ingredients() {
             <option value="amaro-apéritif">amaro-apéritif</option>
             <option value="amaro-digestif">amaro-digestif</option>
             <option value="aromatic">Aromatic</option>
+            <option value="beer">Beer</option>
             <option value="bitters">Bitters</option>
             <option value="bubbles">Bubbles</option>
             <option value="brandy">Brandy</option>
@@ -169,11 +170,14 @@ function Ingredients() {
             <option value="fortified-wine">Fortified Wine</option>
             <option value="gin">gin</option>
             <option value="ice">Ice</option>
+            <option value="Mezcal">Mezcal</option>
+            <option value="powder">Powder</option>
             <option value="protein">Protein</option>
             <option value="rum">Rum</option>
             <option value="salt">Salt</option>
             <option value="spirit">Spirit</option>
             <option value="Sugar">Sugar</option>
+            <option value="Tincture">Tincture</option>
             <option value="whiskey">Whiskey</option>
             <option value="wine">wine</option>
             <option value="vodka">Vodka</option>

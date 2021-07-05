@@ -4,22 +4,22 @@ import { useHistory, useParams } from "react-router-dom";
 import "./cocktail.css";
 import DoughnutChart from "../DoughnutChart/DoughnutChart";
 import { Autocomplete } from "@material-ui/lab";
-import CheckBoxIcon from "@material-ui/icons/CheckBox"
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { makeStyles, styled } from "@material-ui/core/styles";
-import { 
-  Button, 
-  ButtonGroup, 
-  Card, 
-  CardContent, 
-  Checkbox, 
-  FormControl, 
-  FormHelperText, 
-  Grid, 
-  MenuItem, 
-  Select, 
-  TextField, 
-  Typography
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  CardContent,
+  Checkbox,
+  FormControl,
+  FormHelperText,
+  Grid,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
 } from "@material-ui/core";
 
 // get ingredients into search field push
@@ -30,12 +30,14 @@ function Cocktails() {
   const classes = useStyles();
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
-  const ingredients = useSelector((store) => store.ingredientReducer.ingredient);
+  const ingredients = useSelector(
+    (store) => store.ingredientReducer.ingredient
+  );
   const editIngredient = useSelector((store) => store.edit);
 
-  const [myName, setMyName] = useState('');
-  const [myDescription, setMyDescription] = useState('');
-  const [myInstructions, setMyInstructions] = useState('');
+  const [myName, setMyName] = useState("");
+  const [myDescription, setMyDescription] = useState("");
+  const [myInstructions, setMyInstructions] = useState("");
   const [myIngredients, setMyIngredients] = useState([]);
 
   const MyButton = styled(Button)({
@@ -54,11 +56,11 @@ function Cocktails() {
 
   return (
     <div className={classes.background}>
-      <div>
-        <DoughnutChart name={myName} ingredients={myIngredients}/>
+      <div className="text">
+        <DoughnutChart name={myName} ingredients={myIngredients} />
       </div>
 
-      <div style={{ paddingTop: 20, paddingLeft:10 }}>
+      <div style={{ paddingTop: 20, paddingLeft: 10 }}>
         <TextField
           id="cocktail-name"
           label="Name"
@@ -67,7 +69,7 @@ function Cocktails() {
         />
       </div>
 
-      <div style={{ width: 300, paddingLeft:10 }}>
+      <div style={{ width: 300, paddingLeft: 10 }}>
         <Autocomplete
           multiple
           id="ingredient-tags"
@@ -102,7 +104,7 @@ function Cocktails() {
         />
       </div>
 
-      <div style={{ paddingTop: 10, paddingLeft:10 }}>
+      <div style={{ paddingTop: 10, paddingLeft: 10 }}>
         <Card className={classes.root} variant="outlined">
           <CardContent>
             <Typography
@@ -110,7 +112,7 @@ function Cocktails() {
               color="textSecondary"
               gutterBottom
             >
-              ingredient list to post to chart
+              ingredient list to post to chart. change this
             </Typography>
 
             {!myIngredients?.length
@@ -123,11 +125,8 @@ function Cocktails() {
                       alignItems="center"
                       spacing={3}
                     >
-
                       <Grid item xs={6}>
-                        <span className ="text">
-                          {ingredient.name}
-                        </span>
+                        <span className="text">{ingredient.name}</span>
                       </Grid>
 
                       <Grid item xs={3}>
@@ -138,13 +137,17 @@ function Cocktails() {
                             InputProps={{
                               inputProps: {
                                 min: 0.25,
-                                step: "0.25"
+                                step: "0.25",
+                                defaultValue: 1,
                               },
                             }}
                             onChange={(event) => {
                               const updatedIngredients = [...myIngredients];
-                              const index = updatedIngredients.findIndex((i) => i.id === ingredient.id);
-                              updatedIngredients[index].quantity = event.target.value;
+                              const index = updatedIngredients.findIndex(
+                                (i) => i.id === ingredient.id
+                              );
+                              updatedIngredients[index].quantity =
+                                event.target.value;
                               setMyIngredients(updatedIngredients);
                             }}
                           />
@@ -156,16 +159,23 @@ function Cocktails() {
                         <FormControl>
                           <Select
                             id="demo-simple-select-autowidth"
-                            value={ingredient.measurement_type ? ingredient.measurement_type : ''}
+                            value={
+                              ingredient.measurement_type
+                                ? ingredient.measurement_type
+                                : ""
+                            }
                             style={{ width: 100, paddingTop: 15 }}
                             onChange={(event) => {
                               const updatedIngredients = [...myIngredients];
-                              const index = updatedIngredients.findIndex((i) => i.id === ingredient.id);
-                              updatedIngredients[index].measurement_type = event.target.value;
+                              const index = updatedIngredients.findIndex(
+                                (i) => i.id === ingredient.id
+                              );
+                              updatedIngredients[index].measurement_type =
+                                event.target.value;
                               setMyIngredients(updatedIngredients);
                             }}
                           >
-                            <MenuItem value="">-</MenuItem>
+                            <MenuItem value=""></MenuItem>
                             <MenuItem value="ounces">oz</MenuItem>
                             <MenuItem value="ml">ml</MenuItem>
                             <MenuItem value="dash">dash</MenuItem>
@@ -176,45 +186,44 @@ function Cocktails() {
                       </Grid>
                     </Grid>
                   </div>
-                  
                 ))}
           </CardContent>
         </Card>
       </div>
 
-      <div style={{ paddingTop: 20, paddingLeft:10 }}>
+      <div style={{ paddingTop: 20, paddingLeft: 10 }}>
         <TextField
           id="cocktail-steps"
-          label="Steps"
+          label="Steps:"
           placeholder="Follow these steps to create this cocktail..."
           variant="filled"
           multiline
           rows="4"
           rowsMax="50"
           style={{
-            width: '40ch',
+            width: "40ch",
           }}
           onChange={(event) => setMyInstructions(event.target.value)}
         />
       </div>
 
-      <div style={{ paddingTop: 20, paddingLeft:10 }}>
+      <div style={{ paddingTop: 20, paddingLeft: 10 }}>
         <TextField
           id="cocktail-description"
           label="Description"
-          placeholder="Describe this cocktail..."
+          placeholder="Describe this drink, recommend brands ect"
           variant="filled"
           multiline
           rows="4"
           rowsMax="10"
           style={{
-            width: '40ch',
+            width: "40ch",
           }}
           onChange={(event) => setMyDescription(event.target.value)}
         />
       </div>
 
-      <div style={{ paddingTop: 20, paddingLeft:10 }}>
+      <div style={{ paddingTop: 20, paddingLeft: 10 }}>
         <ButtonGroup
           color="secondary"
           aria-label="outlined secondary button group"
@@ -236,7 +245,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(3),
       background: "#333333",
       color: "white",
-      flexGrow: 1
+      flexGrow: 1,
     },
     title: {
       fontSize: 14,
@@ -254,7 +263,7 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center',
+      textAlign: "center",
       color: theme.palette.text.secondary,
     },
   },
