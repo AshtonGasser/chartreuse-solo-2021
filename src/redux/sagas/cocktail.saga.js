@@ -5,7 +5,7 @@ import axios from "axios";
 function* fetchUserCocktails() {
     console.log('in fetch user cocktails');
     try{
-        const cocktails = yield axios.get(`/api/cocktail`);
+        const cocktails = yield axios.get(`/api/cocktails`);
         yield put({ type: "SET_USER_COCKTAILS", payload: cocktails })
     } catch {
         console.log("ERROR in fetchCocktail Saga");
@@ -13,10 +13,11 @@ function* fetchUserCocktails() {
 }
 
 // COCKTAIL POST FUNCTION
-function* addCurrentCocktail() {
+function* addCurrentCocktail(action) {
+  console.log('in addCurrent Cocktail');
     try {
-      const newCocktail = yield axios.post("api/cocktail", action.payload);
-      yield put({ type: "ADD_COCKTAIL", payload: newCocktail });
+      const newCocktail = yield axios.post("api/cocktails", action.payload);
+      yield put({ type: "FETCH_USER_COCKTAILS", payload: newCocktail });
     } catch (error) {
       console.error(`${error} in POST current cocktail`);
     }
@@ -24,7 +25,7 @@ function* addCurrentCocktail() {
 
 function* deleteCocktail(action) {
   try {
-    yield axios.delete(`api/cocktail/${action.payload.id}`);
+    yield axios.delete(`api/cocktails/${action.payload.id}`);
     yield put({ type: "FETCH_USER_COCKTAILS" });
   } catch (error) {
     console.error(`${error} in POST`);

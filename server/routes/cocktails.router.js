@@ -35,18 +35,18 @@ router.get("/cocktails/:id", rejectUnauthenticated, (req, res) => {
 // POST ROUTES⬇
 
 router.post("/", rejectUnauthenticated, (req, res) => {
-  console.log("cocktail we are posting", req.body);
+  console.log("cocktail we are posting");
   // FIRST QUERY MAKES NEW COCKTAIL
-  const { name, description, instructions, ingredients, glass } = req.body;
+  const { name, description, instructions, glassware_id } = req.body;
   const { user_id } = req.user.id;
-  let queryText = `INSERT INTO "cocktails" (name, description, instructions, ingredients, glassware_id, user_id )
-    VALUES ($1, $2, $3, $4, $5, $6);`;
-  const values = [name, description, instructions, ingredients, glass];
+  let queryText = `INSERT INTO "cocktails" (name, description, instructions, glassware_id, user_id )
+    VALUES ($1, $2, $3, $4, $5, );`;
+  const values = [name, description, instructions, glassware_id];
   const id = [user_id];
   pool
     .query(queryText, values, id)
     .then((result) => {
-      console.log("Cocktail Id:", result.rows);
+      console.log("Cocktail Id:");
       //SECOND QUERY ADDS COCKTAILS & INGREDIENTS FOR COCKTAILS-INGREDIENTS
       const { cocktail_id, ingredient_id, measurement_type, number } = req.body;
       const values = [cocktail_id, ingredient_id, measurement_type, number];
@@ -54,14 +54,23 @@ router.post("/", rejectUnauthenticated, (req, res) => {
        INSERT INTO "cocktails_ingredients" ("cocktail_id", "ingredient_id", "measurement_type", "number")
        VALUES ($1, $2, $3, $4,) 
        ;`;
-      pool.query(insertCocktailQuery, values);
-      res.sendStatus(201);
+      pool
+        .query(insertCocktailQuery, values)
+        .then((result) => {
+          //if both queries are done, send back success
+          res.sendStatus(201);
+        })
+        .catch((err) => {
+          console.log(`oh no there is in ${err} in cocktails_ingredients POST`);
+          res.sendStatus(500);
+        });
+      //Catch for the first query
     })
     .catch((err) => {
-      console.log(`oh no there is in ${err} in POST`);
+      console.log(`oh no there is in ${err} in cocktail POST`);
       res.sendStatus(500);
     });
-}); //end get routes
+});//END POST ROUTES
 
 //DELETE Route⬇
 router.delete("/:id", rejectUnauthenticated, (req, res) => {

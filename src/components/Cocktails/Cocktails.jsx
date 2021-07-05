@@ -34,11 +34,15 @@ function Cocktails() {
     (store) => store.ingredientReducer.ingredient
   );
   const editIngredient = useSelector((store) => store.edit);
-
+  const cocktail = useSelector((store) => store.cocktailReducer); 
   const [myName, setMyName] = useState("");
   const [myDescription, setMyDescription] = useState("");
   const [myInstructions, setMyInstructions] = useState("");
   const [myIngredients, setMyIngredients] = useState([]);
+  const [newCocktail, setNewCocktail] = useState({
+    name: "",
+
+  })
 
   const MyButton = styled(Button)({
     boxShadow: "0 3px 5px 2px rgba(0,0,0,0.12)",
@@ -48,6 +52,19 @@ function Cocktails() {
     padding: "0 30px",
     background: "#666666",
   });
+
+    //handle functions⬇
+  
+  const handleClick =(event) => {
+    event.preventDefault()
+    console.log('clicked submit');
+      // dispatch to redux⬇
+      dispatch({
+        type: "ADD_COCKTAIL",
+        payload: {myDescription, myInstructions, myName, myIngredients}
+      }) 
+
+  }
 
   useEffect(() => {
     dispatch({ type: "FETCH_INGREDIENT" });
@@ -112,7 +129,7 @@ function Cocktails() {
               color="textSecondary"
               gutterBottom
             >
-              ingredient list to post to chart. change this
+              Spec:
             </Typography>
 
             {!myIngredients?.length
@@ -228,7 +245,7 @@ function Cocktails() {
           color="secondary"
           aria-label="outlined secondary button group"
         >
-          <Button>Save</Button>
+          <Button onClick = {handleClick}>Save</Button>
           <Button>Load</Button>
           <Button>Delete</Button>
         </ButtonGroup>
@@ -236,6 +253,8 @@ function Cocktails() {
     </div>
   );
 }
+
+// material-UI styles, themes⬇
 
 const useStyles = makeStyles((theme) => ({
   root: {

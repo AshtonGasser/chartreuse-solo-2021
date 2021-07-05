@@ -43,12 +43,12 @@ function Ingredients() {
   }, []);
   // items persist on refresh
 
-  //handles
+  //handle functions⬇
   const handleClick = (event) => {
     event.preventDefault();
     // checking to see what is logged⬇
     console.log("clicked add ingredient", newIngredient);
-    // dispatch the new movie to redux⬇
+    // dispatch the new ingredient to redux⬇
     dispatch({
       type: "ADD_INGREDIENT",
       payload: newIngredient,

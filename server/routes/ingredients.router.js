@@ -31,7 +31,7 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   VALUES ($1, $2, $3, $4, $5)
   ;`;
   //const ingredientId = result.rows[0].id
-  // FIRST QUERY MAKES NEW INGREDIENT
+  // QUERY MAKES NEW INGREDIENT
   pool
     .query(insertIngredientQuery, [
       req.body.name,
@@ -127,6 +127,6 @@ router.post("/delete-ingredients", rejectUnauthenticated, (req, res) => {
       );
       res.sendStatus(500);
     });
-});
+}); //end bulk delete router
 
 module.exports = router;
