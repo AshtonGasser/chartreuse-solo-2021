@@ -1,80 +1,103 @@
-import React from "react";
-import { Doughnut } from "react-chartjs-2";
-import PropTypes from "prop-types";
-import useParams from "react-router-dom"
+import React , { useEffect, useCallback, useState } from "react";
+import ChartComponent, { Bubble, Bar } from "react-chartjs-2";
 
-
-
-
-
-
-
-
-const getIngredientVolume = (ingredient) => {
-  if (ingredient.measurement_type === "ounces") {
-    return ingredient.number;
-  }
-  if (ingredient.measurement_type === "dashes") {
-    return ingredient.number * 0.1;
-  }
-};
-
-const getVolume = (cocktail) => {
-  const ingredientVolume = [];
-  cocktail.ingredients.forEach((ingredient) => {
-    ingredientVolume.push(getIngredientVolume(ingredient));
-  });
-  return ingredientVolume;
-};
-
-const getLabels = (cocktail) => {
-  const ingredientLabels = [];
-  cocktail.ingredients.forEach((ingredient) => {
-    ingredientLabels.push(ingredient.name);
-  });
-  return ingredientLabels;
-};
-
-const getData = (cocktail) => {
-  return {
-    labels: getLabels(cocktail),
-    datasets: [
-      {
-        label: "# of Votes",
-        data: getVolume(cocktail),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
+const DoughnutChart = ({ name, ingredients }) => {
+  const [data, setData] = useState({});
+  const [colors, setColors] = useState([]);
+  const [chartType, setChartType] = useState('doughnut');
+  
+  const randomColor = () => {
+    const r = Math.floor(Math.random()*256);
+    const g = Math.floor(Math.random()*256);
+    const b = Math.floor(Math.random()*256);
+    return `rgba(${r}, ${g}, ${b}, 0.2)`;
   };
-};
 
-const DoughnutChart = (props) => (
-  <>
-    <div className="header">
-      <h1 className="title">{props.cocktail.name}</h1>
+  const changeOpacity = (color, opacity) => {
+    const rgb = color.substring(0, color.lastIndexOf(','));
+    return `${rgb}, ${opacity})`;
+  }
+  
+  const populateColors = (num) => {
+    const nextColors = [...colors];
+    if (num < 0) {
+      for (let i=0; i>num; i--) {
+        nextColors.pop();
+      }
+    } else if (num > 0) {
+      for (let i=0; i<num; i++) {
+        nextColors.push(randomColor());
+      }
+    }
+
+    setColors(nextColors);
+    return nextColors;
+  };
+
+  useEffect(() => {
+    const numIngredients = ingredients?.length ?? 0;
+    const numColors = colors?.length ?? 0;
+    const dataColors = populateColors(numIngredients - numColors);
+    const mlPerOunce = 29.5735;
+    const mlPerBarspoon = 5;
+    const mlPerDash = 0.9;
+    
+    setData({
+      labels: ingredients?.map(ingredient => ingredient.name),
+      datasets: [
+        {
+          label: '# of milliliters',
+          data: ingredients?.map(ingredient => {
+            switch(ingredient.measurement_type) {
+              case 'ounces':
+                return Math.round(ingredient.quantity * mlPerOunce);
+              case 'barspoon':
+                return ingredient.quantity * mlPerBarspoon;
+              case 'dash':
+                return Math.round(ingredient.quantity * mlPerDash);
+              default:
+                return ingredient.quantity;
+            }
+          }),
+          backgroundColor: dataColors,
+          borderColor: dataColors.map(color => changeOpacity(color, 1)),
+          borderWidth: 1,
+        },
+      ],
+    });
+  }, [ingredients, chartType]);
+
+  const getCurrentChart = () => {
+    switch(chartType) {
+      case 'bubble':
+        return <Bubble data={data} />
+      case 'bar':
+        return <Bar data={data} /> 
+    }
+    return <ChartComponent data={data} type={chartType} />
+  }
+
+  // 'line' | 'bar' | 'horizontalBar' | 'radar' | 'doughnut' | 'polarArea' | 'bubble' | 'pie' | 'scatter'
+  return (
+    <div style={{ width: 400, height: 500 }}>
+      <div className="header">
+        <h1 className="title">{name}</h1>
+        <select value={chartType} onChange={(event) => setChartType(event.target.value)}>
+          <option value="line">line</option>
+          <option value="bar">bar</option>
+          <option value="horizontalBar">horizontal bar</option>
+          <option value="radar">radar</option>
+          <option value="doughnut">doughnut</option>
+          <option value="polarArea">polar area</option>
+          <option value="bubble">bubble</option>
+          <option value="pie">pie</option>
+          <option value="scatter">scatter</option>
+        </select>
+      </div>
+
+      {getCurrentChart()}
     </div>
-    <Doughnut data={getData(props.cocktail)} />
-  </>
-);
+  );
+};
 
-DoughnutChart.propTypes = {
-    cocktail: PropTypes.node,
-  };
-
-  export default DoughnutChart 
+export default DoughnutChart;

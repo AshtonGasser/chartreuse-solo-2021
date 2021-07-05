@@ -2,3 +2,7 @@
 .body {
     background-color: rgb(33,33,33);
 }
+
+.text {
+    font-family: 'Roboto Mono', monospace;
+}
