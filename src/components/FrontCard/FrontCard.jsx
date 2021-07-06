@@ -23,60 +23,52 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import ReactCardFlip from "react-card-flip";
 import FlipCard from "../FlipCard/FlipCard";
-function UserDashboard() {
-  // this component doesn't do much to start, just renders some user reducer info to the DOM
+
+function FrontCard() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [myCocktails, setMyCocktails] = useState([]);
   const user = useSelector((store) => store.user);
   const cocktails = useSelector((store) => store.cocktailReducer);
   const classes = useStyles();
+
   useEffect(() => {
     dispatch({ type: "FETCH_USER_COCKTAILS" });
     // later when we edit a cocktail, we will also need to get the cocktail from the database here as well
   }, []);
-  //drink card map map through drinks and apend cards by drink name
-  //card list mapping
-
-  console.log(cocktails);
   return (
     <>
       <div>
-        {cocktails?.map(cocktail => {
-          return(
-          <Card className={classes.root} key={cocktail.id}>
-            <CardHeader
-              avatar={
-                <Avatar aria-label={cocktails.id} className={classes.avatar}>
-                  {user.username}
-                </Avatar>
-              }
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              title={cocktail.name}
-              subheader="datecreated"
-            />
-            <CardMedia className={classes.media} title={cocktail.name} />
-            <CardContent></CardContent>
-            <CardActions disableSpacing>
-              <IconButton area-label="Flip Over">
-                <SwapHorizIcon />
+        <Card className={classes.root}>
+          <CardHeader
+            avatar={
+              <Avatar aria-label={cocktails.id} className={classes.avatar}>
+                {user.username}
+              </Avatar>
+            }
+            action={
+              <IconButton aria-label="settings">
+                <MoreVertIcon />
               </IconButton>
-            </CardActions>
-          </Card>)
-        })}
+            }
+            title={cocktails.name}
+            subheader="datecreated"
+          />
+          <CardMedia className={classes.media} title={cocktails.name} />
+          <CardContent>
+            {cocktails.map((cocktail) => (
+              <div>
+                <li key={cocktail.id}>{cocktail.name}</li>
+              </div>
+            ))}
+          </CardContent>
+          <CardActions disableSpacing>
+            <IconButton area-label="Flip Over">
+              <SwapHorizIcon />
+            </IconButton>
+          </CardActions>
+        </Card>
       </div>
-      <div>{/* <FlipCard/> */}</div>
-      <div className="container">
-        <h2>Welcome, {user.username}!</h2>
-        <p>Your ID is: {user.id}</p>
-        <LogOutButton className="btn" />
-      </div>
-      {/* <button onClick = {handleNav}>ingredients</button> */}
-      <div></div>
     </>
   );
 }
@@ -100,6 +92,4 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-// this allows us to use <App /> in index.js
-
-export default UserDashboard;
+export default FrontCard;

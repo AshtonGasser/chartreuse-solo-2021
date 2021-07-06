@@ -60,7 +60,7 @@ function Cocktails() {
         type: "ADD_COCKTAIL",
         payload: {myDescription, myInstructions, myName, myIngredients}
       }) 
-
+      history.push("/user")
   }
 
   useEffect(() => {

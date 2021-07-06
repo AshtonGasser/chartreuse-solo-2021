@@ -5,7 +5,7 @@ import axios from "axios";
 function* fetchUserCocktails() {
     console.log('in fetch user cocktails');
     try{
-        const cocktails = yield axios.get(`/api/cocktails`);
+        const cocktails = yield axios.get(`/api/cocktails/`);
         yield put({ type: "SET_USER_COCKTAILS", payload: cocktails.data })
     } catch {
         console.log("ERROR in fetchCocktail Saga");
