@@ -35,14 +35,11 @@ function Cocktails() {
   );
   const editIngredient = useSelector((store) => store.edit);
   const cocktail = useSelector((store) => store.cocktailReducer); 
-  const [myName, setMyName] = useState("");
-  const [myDescription, setMyDescription] = useState("");
-  const [myInstructions, setMyInstructions] = useState("");
+  const [myName, setMyName] = useState([]);
+  const [myDescription, setMyDescription] = useState([]);
+  const [myInstructions, setMyInstructions] = useState([]);
   const [myIngredients, setMyIngredients] = useState([]);
-  const [newCocktail, setNewCocktail] = useState({
-    name: "",
-
-  })
+  
 
   const MyButton = styled(Button)({
     boxShadow: "0 3px 5px 2px rgba(0,0,0,0.12)",

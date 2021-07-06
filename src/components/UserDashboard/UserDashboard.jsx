@@ -9,16 +9,8 @@ function UserDashboard() {
   const history = useHistory();
   const user = useSelector((store) => store.user);
   
-  const handleNav = (ingredients) => {
-    switch(history.push){
-      case "/ingredients" :
-      return history.push("/ingredients")
-      case "create cocktail":
-        return history.push('/cocktails')
-        default:
-          return history.push("/")
-    }
-  };
+  
+    
   return (
     <>
     <div className="container">

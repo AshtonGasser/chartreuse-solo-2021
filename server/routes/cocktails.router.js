@@ -5,14 +5,22 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
-// GET Route⬇
+// GET Routes⬇
+router.get("/", rejectUnauthenticated, async (req, res) => {
+  let queryText = `SELECT * FROM "cocktails"
+  WHERE "user_id" = $1`;
+  try {
+    const result = await pool.query(queryText, [req.user.id]);
+    res.send(result.rows);
+  } catch (error) {
+    console.error(error, "in cocktail get");
+    res.sendStatus(500);
+  }
+});
 
-//post id + user_id
-router.get("/cocktails/:id", rejectUnauthenticated, (req, res) => {
-  //console.log('this is our cocktail; request:', req.user);
+router.get("/:id", rejectUnauthenticated, (req, res) => {
   const cocktail_ID = req.params.id;
   console.log("got to cocktails.router");
-  //let myCocktailId = req.query.id
   let myQuery = `SELECT "cocktails".name AS "cocktail", string_agg( "ingredients".name, ', ')
    AS "ingredients", string_agg("cocktails_ingredients".measurement_type, ', ')
    AS "measurement", array_agg("cocktails_ingredients".number) FROM "cocktails"
@@ -30,47 +38,60 @@ router.get("/cocktails/:id", rejectUnauthenticated, (req, res) => {
       console.log("Error GET /cocktails", error);
       res.sendStatus(500);
     });
-}); //end get routes
+});  //end get routes
 
 // POST ROUTES⬇
 
 router.post("/", rejectUnauthenticated, (req, res) => {
-  console.log("cocktail we are posting");
+  console.log("cocktail we are posting", req.body);
   // FIRST QUERY MAKES NEW COCKTAIL
-  const { name, description, instructions, glassware_id } = req.body;
-  const { user_id } = req.user.id;
-  let queryText = `INSERT INTO "cocktails" (name, description, instructions, glassware_id, user_id )
-    VALUES ($1, $2, $3, $4, $5, );`;
-  const values = [name, description, instructions, glassware_id];
-  const id = [user_id];
+  //const { name, description, instructions, glassware_id } = req.body;
+
+  const queryText = `INSERT INTO "cocktails" ("name", "description", "instructions", "glassware_id", "user_id" )
+    VALUES ($1, $2, $3, $4, $5 )
+    RETURNING id;`;
+  const values = [
+    req.body.myName,
+    req.body.myDescription,
+    req.body.myInstructions,
+    req.body.glassware_id,
+    req.user.id,
+  ];
   pool
-    .query(queryText, values, id)
+    .query(queryText, values)
     .then((result) => {
-      console.log("Cocktail Id:");
+      console.log("Cocktail Id:", result.rows[0].id);
       //SECOND QUERY ADDS COCKTAILS & INGREDIENTS FOR COCKTAILS-INGREDIENTS
-      const { cocktail_id, ingredient_id, measurement_type, number } = req.body;
-      const values = [cocktail_id, ingredient_id, measurement_type, number];
+      //const { cocktail_id, ingredient_id, measurement_type, number } = req.body;
       const insertCocktailQuery = `
        INSERT INTO "cocktails_ingredients" ("cocktail_id", "ingredient_id", "measurement_type", "number")
-       VALUES ($1, $2, $3, $4,) 
+       VALUES ($1, $2, $3, $4) 
        ;`;
-      pool
-        .query(insertCocktailQuery, values)
-        .then((result) => {
-          //if both queries are done, send back success
+      const ingredientArray = [];
+      for (let i = 0; i < req.body.myIngredients.length; i++) {
+        const joinValues = [
+          result.rows[0].id,
+          req.body.myIngredients[i].id,
+          req.body.myIngredients[i].measurement_type,
+          req.body.myIngredients[i].quantity,
+        ];
+        ingredientArray.push(pool.query(insertCocktailQuery, joinValues));
+      }
+      //Catch for the first query
+      Promise.all(ingredientArray)
+        .then((response) => {
           res.sendStatus(201);
         })
         .catch((err) => {
-          console.log(`oh no there is in ${err} in cocktails_ingredients POST`);
+          console.log(`${err} in Post`);
           res.sendStatus(500);
         });
-      //Catch for the first query
     })
     .catch((err) => {
-      console.log(`oh no there is in ${err} in cocktail POST`);
+      console.log(`oh no there is an ${err} in cocktail POST`);
       res.sendStatus(500);
     });
-});//END POST ROUTES
+}); //END POST ROUTES
 
 //DELETE Route⬇
 router.delete("/:id", rejectUnauthenticated, (req, res) => {
