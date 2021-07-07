@@ -26,7 +26,7 @@ import {
 function Cocktails() {
   const history = useHistory();
   const dispatch = useDispatch();
-  // const { id } = useParams(); // for use later when we implement EDIT
+  
   const classes = useStyles();
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -34,12 +34,13 @@ function Cocktails() {
     (store) => store.ingredientReducer.ingredient
   );
   const editIngredient = useSelector((store) => store.edit);
-  const cocktail = useSelector((store) => store.cocktailReducer); 
-  const [myName, setMyName] = useState([]);
-  const [myDescription, setMyDescription] = useState([]);
-  const [myInstructions, setMyInstructions] = useState([]);
-  const [myIngredients, setMyIngredients] = useState([]);
   
+  const { id } = useParams();
+  const cocktails = useSelector((store) => store.cocktailReducer); 
+  const [myName, setMyName] = useState();
+  const [myDescription, setMyDescription] = useState();
+  const [myInstructions, setMyInstructions] = useState();
+  const [myIngredients, setMyIngredients] = useState([]);
 
   const MyButton = styled(Button)({
     boxShadow: "0 3px 5px 2px rgba(0,0,0,0.12)",
@@ -64,9 +65,23 @@ function Cocktails() {
   }
 
   useEffect(() => {
+    dispatch({ type: "FETCH_USER_COCKTAILS"});
     dispatch({ type: "FETCH_INGREDIENT" });
-    // later when we edit a cocktail, we will also need to get the cocktail from the database here as well
   }, []);
+
+  useEffect(() => {
+    if (id && cocktails?.length) {
+      const foundCocktail = cocktails.find(cocktail => cocktail.id == id);
+      if (foundCocktail) {
+        setMyName(foundCocktail.name);
+        setMyDescription(foundCocktail.description);
+        setMyInstructions(foundCocktail.instructions);
+        setMyIngredients(foundCocktail.ingredients ?? []); // make sure to populate ingredients on cocktails in your redux store!
+      } else {
+        throw new Error(`Cocktail with id ${id} does not exist in the redux store!`)
+      }
+    }
+  }, [id, cocktails]);
 
   return (
     <div className={classes.background}>
@@ -79,6 +94,7 @@ function Cocktails() {
           id="cocktail-name"
           label="Name"
           variant="filled"
+          value={myName}
           onChange={(event) => setMyName(event.target.value)}
         />
       </div>
@@ -91,6 +107,7 @@ function Cocktails() {
           disableCloseOnSelect
           getOptionLabel={(option) => option.name}
           getOptionSelected={(option, value) => option.name === value.name}
+          value={myName}
           onChange={(e, value) => {
             setMyIngredients(value);
             console.log("selected ingredients:", value);
@@ -217,6 +234,7 @@ function Cocktails() {
           style={{
             width: "40ch",
           }}
+          value={myInstructions}
           onChange={(event) => setMyInstructions(event.target.value)}
         />
       </div>
@@ -233,6 +251,7 @@ function Cocktails() {
           style={{
             width: "40ch",
           }}
+          value={myDescription}
           onChange={(event) => setMyDescription(event.target.value)}
         />
       </div>

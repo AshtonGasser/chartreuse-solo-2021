@@ -27,18 +27,19 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
   JOIN "cocktails_ingredients" ON "cocktails".id = "cocktails_ingredients".cocktail_id
   JOIN "ingredients" ON  "cocktails_ingredients".ingredient_id = "ingredients".id
   WHERE "cocktails".id = $1
-  GROUP BY cocktails.id;`;
+  GROUP BY cocktails.id Order BY "cocktails".name ASC;`;
 
   pool
     .query(myQuery, cocktail_ID)
     .then((result) => {
+      console.log('what we are getting back from database', result.rows);
       res.send(result.rows);
     })
     .catch((error) => {
       console.log("Error GET /cocktails", error);
       res.sendStatus(500);
     });
-});  //end get routes
+}); //end get routes
 
 // POST ROUTES⬇
 
@@ -92,6 +93,56 @@ router.post("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 }); //END POST ROUTES
+
+// PUT ROUTES⬇
+
+router.put("/:id", rejectUnauthenticated, (req, res) => {
+  console.log(`cocktail we are updating `, req.body);
+  const values = [
+    req.body.name,
+    req.body.description,
+    req.body.instructions,
+    req.body.glassware_id,
+    req.params.id,
+  ];
+
+  let queryUpdate = `UPDATE "cocktails" SET "name" = $1, 
+   "instructions" =$2, "description" =$3, "glassware_id"=$4
+   WHERE "cocktails".id =$5`;
+  if (req.user.id != 1) {
+    queryUpdate += ` AND user_id = $6;`;
+    values.push(req.user.id);
+  } else {
+    queryUpdate += `;`;
+  }
+  pool.query(queryUpdate, values).then((result) => {
+    console.log(`we updated ingredient with id`, req.params.id);
+    const updateCocktailQuery = `
+   UPDATE "cocktails_ingredients" SET "ingredient_id" = $2, "measurement_type" = $3, "number" = $4, 
+   WHERE "cocktail_id"=$1;`;
+    const updateIngredientArray = [];
+    for (let i = 0; i < req.body.myIngredients.length; i++) {
+      const joinUpdateValues = [
+        req.params.id,
+        req.body.myIngredients[i].id,
+        req.body.myIngredients[i].measurement_type,
+        req.body.myIngredients[i].quantity,
+      ];
+      updateIngredientArray.push(
+        pool.query(updateCocktailQuery, joinUpdateValues)
+      );
+    }
+    //catch for first update query
+    Promise.all(updateIngredientArray)
+      .then((response) => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log('error with the promise in put', err);
+        res.sendStatus(500);
+      });
+  });
+}); //END PUT ROUTES
 
 //DELETE Route⬇
 router.delete("/:id", rejectUnauthenticated, (req, res) => {

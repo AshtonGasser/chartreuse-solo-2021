@@ -111,7 +111,7 @@ function App() {
  
           <ProtectedRoute
           exact 
-          path ="/cocktails/:id"
+          path ="/cocktails/:id" component ={Cocktails}
           >
             <Cocktails/>
             

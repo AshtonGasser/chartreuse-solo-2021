@@ -22,18 +22,28 @@ function* addCurrentCocktail(action) {
       console.error(`${error} in POST current cocktail`);
     }
 }
-
+//PUT INGREDIENT SAGA
+function* editCocktail(action) {
+  console.log("in edit cocktail");
+  try {
+    yield axios.put(`api/cocktails/${action.payload.id}`, action.payload.cocktail);
+    yield put({ type: "FETCH_USER_COCKTAILS" });
+  } catch (error) {
+    console.error(`${error} in get editCocktail`);
+  }
+}
 function* deleteCocktail(action) {
   try {
     yield axios.delete(`api/cocktails/${action.payload.id}`);
     yield put({ type: "FETCH_USER_COCKTAILS" });
   } catch (error) {
-    console.error(`${error} in POST`);
+    console.error(`${error} in DELETE cocktail`);
   }
 }
 
 function* cocktailSaga() {
     yield takeLatest("FETCH_USER_COCKTAILS", fetchUserCocktails);
+    yield takeLatest("EDIT_USER_COCKTAIL", editCocktail)
     yield takeLatest("ADD_COCKTAIL", addCurrentCocktail);
     yield takeLatest("DELETE_COCKTAIL", deleteCocktail);
 }

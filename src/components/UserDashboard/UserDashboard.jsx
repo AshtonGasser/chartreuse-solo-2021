@@ -21,6 +21,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
+import EditIcon from "@material-ui/icons/Edit";
 import ReactCardFlip from "react-card-flip";
 import FlipCard from "../FlipCard/FlipCard";
 function UserDashboard() {
@@ -33,11 +34,14 @@ function UserDashboard() {
   const classes = useStyles();
   useEffect(() => {
     dispatch({ type: "FETCH_USER_COCKTAILS" });
-    // later when we edit a cocktail, we will also need to get the cocktail from the database here as well
+    
   }, []);
   //drink card map map through drinks and apend cards by drink name
   //card list mapping
-
+  const handleEdit = (cocktail) => {
+    console.log('clicked handle edit')
+    history.push(`/cocktails/${cocktail.id}`)
+  } 
   console.log(cocktails);
   return (
     <>
@@ -47,7 +51,7 @@ function UserDashboard() {
           <Card className={classes.root} key={cocktail.id}>
             <CardHeader
               avatar={
-                <Avatar aria-label={cocktails.id} className={classes.avatar}>
+                <Avatar aria-label={cocktail.id} className={classes.avatar}>
                   {user.username}
                 </Avatar>
               }
@@ -65,6 +69,9 @@ function UserDashboard() {
               <IconButton area-label="Flip Over">
                 <SwapHorizIcon />
               </IconButton>
+              <IconButton aria-label="Edit">
+          <EditIcon onClick={() => handleEdit(cocktail)}/>
+        </IconButton>
             </CardActions>
           </Card>)
         })}
