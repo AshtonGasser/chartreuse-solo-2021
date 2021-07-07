@@ -137,16 +137,10 @@ VALUES
 --	ON "cocktails".id = "cocktails_spirits".cocktail_id
 --GROUP BY cocktails.id;
 
-
---ARRAY_AGG
-SELECT "cocktails".name AS "cocktail", ARRAY_AGG( "ingredients".name) AS "ingredients", ARRAY_AGG("cocktails_ingredients".measurement_type) AS "measurement", ARRAY_AGG("cocktails_ingredients".number) FROM "cocktails"
-JOIN "cocktails_ingredients" ON "cocktails".id = "cocktails_ingredients".cocktail_id
-JOIN "ingredients" ON  "cocktails_ingredients".ingredient_id = "ingredients".id
-WHERE "cocktails".id = 3
-GROUP BY cocktails.id;
-
---STRING_AGG
-SELECT "cocktails".name AS "cocktail", string_agg( "ingredients".name, ', ') AS "ingredients", string_agg("cocktails_ingredients".measurement_type, ', ') AS "measurement", array_agg("cocktails_ingredients".number) FROM "cocktails"
+--JSON_AGG
+SELECT "cocktails".* , JSON_AGG (JSON_BUILD_OBJECT('id', "ingredients".id, 'name', "ingredients".name, 'ingredient_type', "ingredients".ingredient_type, 'quality', "ingredients".quality, 'user_id', "ingredients".user_id,
+ 'measurement_type', "cocktails_ingredients".measurement_type, 'number', "cocktails_ingredients".number)
+) AS "ingredients" FROM "cocktails"
 JOIN "cocktails_ingredients" ON "cocktails".id = "cocktails_ingredients".cocktail_id
 JOIN "ingredients" ON  "cocktails_ingredients".ingredient_id = "ingredients".id
 WHERE "cocktails".id = 3

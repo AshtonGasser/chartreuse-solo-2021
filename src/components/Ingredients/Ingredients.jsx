@@ -74,8 +74,8 @@ function Ingredients() {
   const handleEditClick = async ({ id, field, props }, event) => {
     dispatch({
       type: "EDIT_INGREDIENT",
-      payload: { 
-        id: id, 
+      payload: {
+        id: id,
         field: field,
         value: props.value,
       },
@@ -139,7 +139,7 @@ function Ingredients() {
             <option value="sugar">Sugar</option>
             <option value="spirit">Spirit</option>
             <option value="texture">Texture</option>
-            <option value ="wine">Wine</option>
+            <option value="wine">Wine</option>
           </Select>
           <FormHelperText>Required</FormHelperText>
         </FormControl>
@@ -152,7 +152,9 @@ function Ingredients() {
           <Select
             native
             value={ingredient.quality}
-            onChange={(event) => handleTextFields("quality", event.target.value)}
+            onChange={(event) =>
+              handleTextFields("quality", event.target.value)
+            }
             name="Quality"
           >
             <option aria-label="None" value="" />
@@ -195,13 +197,14 @@ function Ingredients() {
           }
         />
       </div>
-      <button onClick={handleClick}>Add Ingredient</button>
+      <Button variant="contained" color="Primary" onClick={handleClick}>
+        Add Ingredient
+      </Button>
       <DeleteIcon color="secondary" onClick={handleDelete} />
       <section>
         <div style={{ display: "flex", height: "100%" }}>
           <div style={{ flexGrow: 1 }}>
             <div style={{ height: 500, width: "100%" }}>
-
               <DataGrid
                 onSelectionModelChange={(e) =>
                   setSelectedIngredients(e.selectionModel)

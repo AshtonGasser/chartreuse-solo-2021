@@ -21,27 +21,24 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-
 // get ingredients into search field push
 function Cocktails() {
   const history = useHistory();
   const dispatch = useDispatch();
-  
+
   const classes = useStyles();
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const ingredients = useSelector(
     (store) => store.ingredientReducer.ingredient
   );
-  const editIngredient = useSelector((store) => store.edit);
-  
   const { id } = useParams();
-  const cocktails = useSelector((store) => store.cocktailReducer); 
+  const cocktails = useSelector((store) => store.cocktailReducer);
   const [myName, setMyName] = useState();
   const [myDescription, setMyDescription] = useState();
   const [myInstructions, setMyInstructions] = useState();
   const [myIngredients, setMyIngredients] = useState([]);
-
+  const [isEditing, setIsEditing] = useState(false);
   const MyButton = styled(Button)({
     boxShadow: "0 3px 5px 2px rgba(0,0,0,0.12)",
     border: 0,
@@ -51,34 +48,45 @@ function Cocktails() {
     background: "#666666",
   });
 
-    //handle functions⬇
-  
-  const handleClick =(event) => {
-    event.preventDefault()
-    console.log('clicked submit');
-      // dispatch to redux⬇
+  //handle functions⬇
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    console.log("clicked submit");
+    // dispatch to redux⬇
+    if (isEditing) {
+      dispatch({
+        type: "EDIT_USER_COCKTAIL",
+        payload: { myDescription, myInstructions, myName, myIngredients, id },
+      });
+    } else {
       dispatch({
         type: "ADD_COCKTAIL",
-        payload: {myDescription, myInstructions, myName, myIngredients}
-      }) 
-      history.push("/user")
-  }
+        payload: { myDescription, myInstructions, myName, myIngredients },
+      });
+    }
+    history.push("/user");
+  };
 
   useEffect(() => {
-    dispatch({ type: "FETCH_USER_COCKTAILS"});
+    dispatch({ type: "FETCH_USER_COCKTAILS" });
     dispatch({ type: "FETCH_INGREDIENT" });
   }, []);
 
+  //conditional to repopulate the form by cocktail id if we we are editing ⬇
   useEffect(() => {
     if (id && cocktails?.length) {
-      const foundCocktail = cocktails.find(cocktail => cocktail.id == id);
+      const foundCocktail = cocktails.find((cocktail) => cocktail.id == id);
       if (foundCocktail) {
         setMyName(foundCocktail.name);
         setMyDescription(foundCocktail.description);
         setMyInstructions(foundCocktail.instructions);
-        setMyIngredients(foundCocktail.ingredients ?? []); // make sure to populate ingredients on cocktails in your redux store!
+        setMyIngredients(foundCocktail.ingredients ?? []);
+        setIsEditing(true); // make sure to populate ingredients on cocktails in your redux store!
       } else {
-        throw new Error(`Cocktail with id ${id} does not exist in the redux store!`)
+        throw new Error(
+          `Cocktail with id ${id} does not exist in the redux store!`
+        );
       }
     }
   }, [id, cocktails]);
@@ -261,7 +269,7 @@ function Cocktails() {
           color="secondary"
           aria-label="outlined secondary button group"
         >
-          <Button onClick = {handleClick}>Save</Button>
+          <Button onClick={handleClick}>Save</Button>
           <Button>Load</Button>
           <Button>Delete</Button>
         </ButtonGroup>

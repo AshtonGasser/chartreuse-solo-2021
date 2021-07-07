@@ -6,33 +6,33 @@ const {
 } = require("../modules/authentication-middleware");
 
 // GET Routes⬇
-router.get("/", rejectUnauthenticated, async (req, res) => {
-  let queryText = `SELECT * FROM "cocktails"
-  WHERE "user_id" = $1`;
-  try {
-    const result = await pool.query(queryText, [req.user.id]);
-    res.send(result.rows);
-  } catch (error) {
-    console.error(error, "in cocktail get");
-    res.sendStatus(500);
-  }
-});
+// router.get("/", rejectUnauthenticated, async (req, res) => {
+//   let queryText = `SELECT * FROM "cocktails"
+//   WHERE "user_id" = $1`;
+//   try {
+//     const result = await pool.query(queryText, [req.user.id]);
+//     res.send(result.rows);
+//   } catch (error) {
+//     console.error(error, "in cocktail get");
+//     res.sendStatus(500);
+//   }
+// });
 
-router.get("/:id", rejectUnauthenticated, (req, res) => {
-  const cocktail_ID = req.params.id;
+router.get("/", rejectUnauthenticated, (req, res) => {
   console.log("got to cocktails.router");
-  let myQuery = `SELECT "cocktails".name AS "cocktail", string_agg( "ingredients".name, ', ')
-   AS "ingredients", string_agg("cocktails_ingredients".measurement_type, ', ')
-   AS "measurement", array_agg("cocktails_ingredients".number) FROM "cocktails"
-  JOIN "cocktails_ingredients" ON "cocktails".id = "cocktails_ingredients".cocktail_id
-  JOIN "ingredients" ON  "cocktails_ingredients".ingredient_id = "ingredients".id
-  WHERE "cocktails".id = $1
-  GROUP BY cocktails.id Order BY "cocktails".name ASC;`;
+  let myQuery = `SELECT "cocktails".* , JSON_AGG (JSON_BUILD_OBJECT('id', "ingredients".id, 'name', "ingredients".name, 'ingredient_type', "ingredients".ingredient_type, 'quality', "ingredients".quality, 'user_id', "ingredients".user_id,
+  'measurement_type', "cocktails_ingredients".measurement_type, 'number', "cocktails_ingredients".number)
+ ) AS "ingredients" FROM "cocktails"
+ JOIN "cocktails_ingredients" ON "cocktails".id = "cocktails_ingredients".cocktail_id
+ JOIN "ingredients" ON  "cocktails_ingredients".ingredient_id = "ingredients".id
+ WHERE "cocktails".user_id = $1
+ GROUP BY cocktails.id;
+ `;
 
   pool
-    .query(myQuery, cocktail_ID)
+    .query(myQuery, [req.user.id])
     .then((result) => {
-      console.log('what we are getting back from database', result.rows);
+      //console.log('what we are getting back from database', result.rows);
       res.send(result.rows);
     })
     .catch((error) => {
@@ -99,9 +99,9 @@ router.post("/", rejectUnauthenticated, (req, res) => {
 router.put("/:id", rejectUnauthenticated, (req, res) => {
   console.log(`cocktail we are updating `, req.body);
   const values = [
-    req.body.name,
-    req.body.description,
-    req.body.instructions,
+    req.body.myName,
+    req.body.myDescription,
+    req.body.myInstructions,
     req.body.glassware_id,
     req.params.id,
   ];
@@ -118,8 +118,9 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
   pool.query(queryUpdate, values).then((result) => {
     console.log(`we updated ingredient with id`, req.params.id);
     const updateCocktailQuery = `
-   UPDATE "cocktails_ingredients" SET "ingredient_id" = $2, "measurement_type" = $3, "number" = $4, 
-   WHERE "cocktail_id"=$1;`;
+   UPDATE "cocktails_ingredients" SET
+   "measurement_type" = $3, "number" = $4
+   WHERE "cocktail_id"=$1 AND "ingredient_id" = $2;`;
     const updateIngredientArray = [];
     for (let i = 0; i < req.body.myIngredients.length; i++) {
       const joinUpdateValues = [

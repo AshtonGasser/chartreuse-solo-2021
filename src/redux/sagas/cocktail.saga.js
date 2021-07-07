@@ -26,7 +26,7 @@ function* addCurrentCocktail(action) {
 function* editCocktail(action) {
   console.log("in edit cocktail");
   try {
-    yield axios.put(`api/cocktails/${action.payload.id}`, action.payload.cocktail);
+    yield axios.put(`api/cocktails/${action.payload.id}`, action.payload);
     yield put({ type: "FETCH_USER_COCKTAILS" });
   } catch (error) {
     console.error(`${error} in get editCocktail`);
