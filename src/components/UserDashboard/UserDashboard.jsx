@@ -11,6 +11,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import ReactCardFlip from "react-card-flip";
 import FlipCard from "../FlipCard/FlipCard";
 import {
@@ -30,7 +31,7 @@ function UserDashboard() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const dispatch = useDispatch();
   const history = useHistory();
-  const [myCocktails, setMyCocktails] = useState([]);
+  const [selectedCocktail, setSelectedCocktail] = useState([]);
   const user = useSelector((store) => store.user);
   const cocktails = useSelector((store) => store.cocktailReducer);
   const classes = useStyles();
@@ -43,6 +44,14 @@ function UserDashboard() {
     console.log("clicked handle edit");
     history.push(`/cocktails/${cocktail.id}`);
   };
+
+  const handleDelete = (cocktail) => {
+    console.log('clicked delete:', cocktail.id);
+    dispatch({
+      type: "DELETE_COCKTAIL",
+      payload: cocktail.id
+    })
+  }
   console.log(cocktails);
   return (
     <>
@@ -72,6 +81,9 @@ function UserDashboard() {
                 </IconButton>
                 <IconButton aria-label="Edit">
                   <EditIcon onClick={() => handleEdit(cocktail)} />
+                </IconButton>
+                <IconButton aria-label="Delete">
+                  <DeleteIcon onClick={() => handleDelete(cocktail)} />
                 </IconButton>
               </CardActions>
             </Card>

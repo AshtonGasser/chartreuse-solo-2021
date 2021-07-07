@@ -115,7 +115,7 @@ function Cocktails() {
           disableCloseOnSelect
           getOptionLabel={(option) => option.name}
           getOptionSelected={(option, value) => option.name === value.name}
-          value={myName}
+          value={myIngredients}
           onChange={(e, value) => {
             setMyIngredients(value);
             console.log("selected ingredients:", value);

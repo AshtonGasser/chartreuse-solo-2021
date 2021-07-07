@@ -25,7 +25,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
  ) AS "ingredients" FROM "cocktails"
  JOIN "cocktails_ingredients" ON "cocktails".id = "cocktails_ingredients".cocktail_id
  JOIN "ingredients" ON  "cocktails_ingredients".ingredient_id = "ingredients".id
- WHERE "cocktails".user_id = $1
+ WHERE "cocktails".user_id = $1 or "cocktails".user_id = 1
  GROUP BY cocktails.id;
  `;
 
@@ -119,9 +119,9 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
   pool.query(queryUpdate, values).then((result) => {
     console.log(`we updated ingredient with id`, req.params.id);
     const updateCocktailQuery = `
-   UPDATE "cocktails_ingredients" SET
-   "measurement_type" = $3, "number" = $4
-   WHERE "cocktail_id"=$1 AND "ingredient_id" = $2;`;
+    UPDATE "cocktails_ingredients" SET "ingredient_id" = $2;
+    "measurement_type" = $3, "number" = $4
+    WHERE "cocktail_id"=$1 `;
     const updateIngredientArray = [];
     for (let i = 0; i < req.body.myIngredients.length; i++) {
       const joinUpdateValues = [
@@ -148,11 +148,14 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
 
 //DELETE Route⬇
 router.delete("/:id", rejectUnauthenticated, (req, res) => {
-  console.log("in router.delete");
+  console.log("in router.delete" );
   const cocktailToDelete = req.params.id;
-  const query = `DELETE FROM "cocktails_ingredients" WHERE "user_id" = $1 AND "cocktails".id = $2 IN   > 1 "`;
+  const id = req.user.id
+  const queryParams =[req.params.id, id, ]
+
+  let query = `DELETE FROM "cocktails" WHERE "cocktails"."id" =$1 AND "user_id" = $2 `
   pool
-    .query(query, [req.user.id, cocktailToDelete])
+    .query(query, queryParams)
     .then((response) => {
       console.log(`we deleted cocktail with id ${cocktailToDelete}`);
       res.sendStatus(200);
