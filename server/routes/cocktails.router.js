@@ -99,16 +99,17 @@ router.post("/", rejectUnauthenticated, (req, res) => {
 router.put("/:id", rejectUnauthenticated, (req, res) => {
   console.log(`cocktail we are updating `, req.body);
   const values = [
+    req.params.id,
     req.body.myName,
     req.body.myDescription,
     req.body.myInstructions,
     req.body.glassware_id,
-    req.params.id,
+    
   ];
 
-  let queryUpdate = `UPDATE "cocktails" SET "name" = $1, 
-   "instructions" =$2, "description" =$3, "glassware_id"=$4
-   WHERE "cocktails".id =$5`;
+  let queryUpdate = `UPDATE "cocktails" SET "name" = $2, 
+   "instructions" =$3, "description" =$4, "glassware_id"=$5
+   WHERE "cocktails".id =$1`;
   if (req.user.id != 1) {
     queryUpdate += ` AND user_id = $6;`;
     values.push(req.user.id);
