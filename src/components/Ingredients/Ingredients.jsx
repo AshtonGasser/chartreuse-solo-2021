@@ -10,7 +10,11 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import DeleteIcon from "@material-ui/icons/Delete";
-
+import Swal, {
+  SweetAlertIcon,
+  SweetAlertOptions,
+  SweetAlertResult,
+} from "sweetalert2";
 
 //material-UI theme
 const useStyles = makeStyles((theme) => ({
@@ -65,10 +69,25 @@ function Ingredients() {
 
   const handleDelete = () => {
     console.log("clicked delete");
-    dispatch({
-      type: "DELETE_INGREDIENTS",
-      payload: { ids: selectedIngredients },
+    Swal.fire({
+      icon: "warning",
+      title: "Warning",
+      text: "Are you sure you want to delete?",
+      showCloseButton: true,
+      showCancelButton: true,
+      footer: '<a href="">Why do I have this issue?</a>',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch({
+          type: "DELETE_INGREDIENTS",
+          payload: { ids: selectedIngredients },
+        });
+        Swal.fire("ingredients Deleted!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
     });
+    
   };
 
   const handleEditClick = async ({ id, field, props }, event) => {

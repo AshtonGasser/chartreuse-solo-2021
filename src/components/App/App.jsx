@@ -1,33 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
   HashRouter as Router,
   Route,
   Redirect,
   Switch,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 
-import Nav from '../Nav/Nav';
-import Footer from '../Footer/Footer';
+import Nav from "../Nav/Nav";
+import Footer from "../Footer/Footer";
 
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
-import AboutPage from '../AboutPage/AboutPage';
-import UserDashboard from '../UserDashboard/UserDashboard';
-import InfoPage from '../InfoPage/InfoPage';
-import LandingPage from '../LandingPage/LandingPage';
-import LoginPage from '../LoginPage/LoginPage';
-import RegisterPage from '../RegisterPage/RegisterPage';
-import Ingredients from "../Ingredients/Ingredients.jsx"
-import Cocktails from "../Cocktails/Cocktails.jsx"
-import './App.css';
+import AboutPage from "../AboutPage/AboutPage";
+import UserDashboard from "../UserDashboard/UserDashboard";
+import InfoPage from "../InfoPage/InfoPage";
+import LandingPage from "../LandingPage/LandingPage";
+import LoginPage from "../LoginPage/LoginPage";
+import RegisterPage from "../RegisterPage/RegisterPage";
+import Ingredients from "../Ingredients/Ingredients.jsx";
+import Cocktails from "../Cocktails/Cocktails.jsx";
+import AllCocktails from "../AllCocktails/AllCocktails";
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_USER' });
+    dispatch({ type: "FETCH_USER" });
   }, [dispatch]);
 
   return (
@@ -102,28 +103,20 @@ function App() {
           >
             <LandingPage />
           </ProtectedRoute>
-          <ProtectedRoute 
-          exact
-          path="/ingredients"
-          >
-            <Ingredients/>
-          </ProtectedRoute>
- 
-          <ProtectedRoute
-          exact 
-          path ="/cocktails/:id" component ={Cocktails}
-          >
-            <Cocktails/>
-            
+          <ProtectedRoute exact path="/ingredients">
+            <Ingredients />
           </ProtectedRoute>
 
-          <ProtectedRoute
-          exact 
-          path ="/cocktails"
-          >
-            <Cocktails/>
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/cocktails/:id" component={Cocktails}>
+            <Cocktails />
+          </ProtectedRoute>
 
+          <ProtectedRoute exact path="/cocktails">
+            <Cocktails />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/allcocktails">
+            <AllCocktails />
+          </ProtectedRoute>
           {/* <ProtectedRoute
           exact 
           path ="/allcocktails"
@@ -138,7 +131,6 @@ function App() {
           authRedirect ="/user">
             
           </ProtectedRoute> */}
-       
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>

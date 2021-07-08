@@ -23,7 +23,7 @@ const BackCard = ({ cocktail, flip, height, width }) => {
   const classes = useStyles();
 
   return (
-    <Card key ={cocktail.id} className={classes.root} style={{height: height, width: width}}>
+    <Card key ={cocktail.id} className={classes.root} style={{height: height, width: width}} alignItems = "stretch">
         <CardHeader
             avatar={
                 <Avatar aria-label={cocktail.id}>
@@ -39,7 +39,7 @@ const BackCard = ({ cocktail, flip, height, width }) => {
             
         />
         <CardMedia title={cocktail.name}/>
-        <CardContent>{cocktail.description}</CardContent>
+        <CardContent>{cocktail.instructions}</CardContent>
         <CardActions disableSpacing>
             <IconButton area-label="Flip Over">
                 <SwapHorizIcon onClick={flip}/>

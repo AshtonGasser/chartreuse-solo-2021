@@ -7,6 +7,11 @@ import { Autocomplete } from "@material-ui/lab";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { makeStyles, styled } from "@material-ui/core/styles";
+import Swal, {
+  SweetAlertIcon,
+  SweetAlertOptions,
+  SweetAlertResult,
+} from "sweetalert2";
 import {
   Button,
   ButtonGroup,
@@ -55,14 +60,51 @@ function Cocktails() {
     console.log("clicked submit");
     // dispatch to redux⬇
     if (isEditing) {
-      dispatch({
-        type: "EDIT_USER_COCKTAIL",
-        payload: { myDescription, myInstructions, myName, myIngredients, id },
+      Swal.fire({
+        icon : 'question' ,
+        title: "Do you want to save the changes?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: `Save`,
+        denyButtonText: `Don't save`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          dispatch({
+            type: "EDIT_USER_COCKTAIL",
+            payload: {
+              myDescription,
+              myInstructions,
+              myName,
+              myIngredients,
+              id,
+            },
+          });
+          Swal.fire("Saved!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
       });
     } else {
-      dispatch({
-        type: "ADD_COCKTAIL",
-        payload: { myDescription, myInstructions, myName, myIngredients },
+      Swal.fire({
+        icon: "question",
+        title: "ready to post this cocktail?",
+        text: "Are you still working on this cocktail?",
+        confirmButtonText: `Post`,
+        denyButtonText: `Not Yet`,
+        showCloseButton: true,
+        showCancelButton: true,
+        footer: '<a href="">Why do I have this issue?</a>',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch({
+            type: "ADD_COCKTAIL",
+            payload: { myDescription, myInstructions, myName, myIngredients },
+          });
+          Swal.fire("Cocktail Created!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
       });
     }
     history.push("/user");
