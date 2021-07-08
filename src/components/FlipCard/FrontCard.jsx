@@ -29,7 +29,7 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
     console.log('clicked delete:', cocktail);
     dispatch({
       type: "DELETE_COCKTAIL",
-      payload: cocktail.id
+      payload: cocktail
     });
   }
 
@@ -51,7 +51,7 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
             subheader="datecreated"
         />
         <CardMedia title={cocktail.name} />
-        <CardContent></CardContent>
+        <CardContent>{cocktail.instructions}</CardContent>
         <CardActions disableSpacing>
             <IconButton area-label="Flip Over">
                 <SwapHorizIcon onClick={flip}/>

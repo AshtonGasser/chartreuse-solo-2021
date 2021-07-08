@@ -34,7 +34,7 @@ function* editCocktail(action) {
 }
 function* deleteCocktail(action) {
   try {
-    yield axios.delete(`api/cocktails/${action.payload}`);
+    yield axios.delete(`api/cocktails/${action.payload.id}`);
     yield put({ type: "FETCH_USER_COCKTAILS" });
   } catch (error) {
     console.error(`${error} in DELETE cocktail`);

@@ -53,13 +53,13 @@ const DoughnutChart = ({ name, ingredients }) => {
           data: ingredients?.map((ingredient) => {
             switch (ingredient.measurement_type) {
               case "ounces":
-                return Math.round(ingredient.quantity * mlPerOunce);
+                return Math.round(ingredient.number * mlPerOunce);
               case "barspoon":
-                return ingredient.quantity * mlPerBarspoon;
+                return ingredient.number * mlPerBarspoon;
               case "dash":
-                return Math.round(ingredient.quantity * mlPerDash);
+                return Math.round(ingredient.number * mlPerDash);
               default:
-                return ingredient.quantity;
+                return ingredient.number;
             }
           }),
           backgroundColor: dataColors,

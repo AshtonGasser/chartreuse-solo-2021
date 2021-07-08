@@ -13,16 +13,21 @@ import EditIcon from "@material-ui/icons/Edit"
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Ingredients from "../Ingredients/Ingredients";
+import Chip from '@material-ui/core/Chip';
 
-const FrontCard = ({ cocktail, flip, height, width }) => {
+
+const BackCard = ({ cocktail, flip, height, width }) => {
+    const user = useSelector((store) => store.user);
+    const cocktails = useSelector((store) => store.cocktailReducer);
   const classes = useStyles();
 
   return (
-    <Card className={classes.root} style={{height: height, width: width}}>
+    <Card key ={cocktail.id} className={classes.root} style={{height: height, width: width}}>
         <CardHeader
             avatar={
-                <Avatar>
-                    COOLGUY
+                <Avatar aria-label={cocktail.id}>
+                    {user.username}
                 </Avatar>
             }
             action={
@@ -30,19 +35,14 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
                     <MoreVertIcon />
                 </IconButton>
             }
-            title={'COCKTAILLLL'}
+            title={cocktail.name}
+            
         />
-        <CardMedia title={'COCKTAILLLL'} />
-        <CardContent></CardContent>
+        <CardMedia title={cocktail.name}/>
+        <CardContent>{cocktail.description}</CardContent>
         <CardActions disableSpacing>
             <IconButton area-label="Flip Over">
                 <SwapHorizIcon onClick={flip}/>
-            </IconButton>
-            <IconButton aria-label="Edit">
-                <EditIcon onClick={() => {}} />
-            </IconButton>
-            <IconButton aria-label="Delete">
-                <DeleteIcon onClick={() => {}} />
             </IconButton>
         </CardActions>
     </Card>
@@ -53,4 +53,4 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default FrontCard;
+export default BackCard;
