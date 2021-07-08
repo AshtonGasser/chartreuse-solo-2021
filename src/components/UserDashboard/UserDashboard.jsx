@@ -46,7 +46,7 @@ function UserDashboard() {
   };
 
   const handleDelete = (cocktail) => {
-    console.log('clicked delete:', cocktail.id);
+    console.log('clicked delete:', cocktail);
     dispatch({
       type: "DELETE_COCKTAIL",
       payload: cocktail.id

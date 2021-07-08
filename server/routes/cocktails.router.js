@@ -5,7 +5,7 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
-// GET Routes⬇
+//GET Routes⬇
 // router.get("/", rejectUnauthenticated, async (req, res) => {
 //   let queryText = `SELECT * FROM "cocktails"
 //   WHERE "user_id" = $1`;

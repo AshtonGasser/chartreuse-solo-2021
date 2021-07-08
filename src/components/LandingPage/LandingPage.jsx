@@ -26,9 +26,7 @@ function LandingPage() {
   const [heading, setHeading] = useState('Welcome');
   const [myCocktails, setMyCocktails] = useState([])
   const history = useHistory();
-  const cocktails = useSelector(
-    (store) => store.cocktailReducer.cocktail
-  );
+  
 
   const onLogin = (event) => {
     history.push('/login');

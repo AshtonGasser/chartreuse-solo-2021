@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from "react";
-import ChartComponent, { Bubble, Bar } from "react-chartjs-2";
+import ChartComponent, { Bubble, Bar, Pie, PolarArea, Line, Scatter, Radar } from "react-chartjs-2";
 
 const DoughnutChart = ({ name, ingredients }) => {
   const [data, setData] = useState({});
@@ -76,6 +76,18 @@ const DoughnutChart = ({ name, ingredients }) => {
         return <Bubble data={data} />;
       case "bar":
         return <Bar data={data} />;
+        case "pie":
+        return <Pie data={data} />;
+        case "polarArea":
+        return <PolarArea data={data} />;
+        case "line":
+        return <Line data={data} />;
+        case "scatter":
+        return <Scatter data={data} />;
+        case "radar":
+          return <Radar data={data} />;
+        
+        
     }
     return <ChartComponent data={data} type={chartType} />;
   };
@@ -91,7 +103,6 @@ const DoughnutChart = ({ name, ingredients }) => {
         >
           <option value="line">line</option>
           <option value="bar">bar</option>
-          <option value="horizontalBar">horizontal bar</option>
           <option value="radar">radar</option>
           <option value="doughnut">doughnut</option>
           <option value="polarArea">polar area</option>

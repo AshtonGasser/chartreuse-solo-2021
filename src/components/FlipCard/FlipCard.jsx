@@ -49,3 +49,56 @@ class FlipCard extends React.Component {
     }
   }
   export default FlipCard
+
+
+// class FlipCard extends React.Component {
+//   //wrapper of card flip npm package
+//   static propTypes = {
+//    cocktail: PropTypes.node, 
+//   }
+
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       isFlipped: false,
+//     };
+//     this.handleMouseEnter = this.handleMouseEnter.bind(this);
+//     this.handleMouseLeave = this.handleMouseLeave.bind(this);
+//   }
+
+//   handleMouseEnter(e) {
+//     e.preventDefault();
+//     this.setState({
+//       isFlipped: true,
+//     });
+//   }
+
+//   handleMouseLeave(e) {
+//     e.preventDefault();
+//     this.setState({
+//       isFlipped: false,
+//     });
+//   }
+
+//   render() {
+//     return (
+//       <ReactCardFlip
+//         flipSpeedFrontToBack={0.1}
+//         isFlipped={this.state.isFlipped}
+//         flipDirection="horizontal"
+//       >
+//         <div onMouseEnter={this.handleMouseEnter}>
+//           This is the front of the card.
+//           <DoughnutChart cocktail={this.props.cocktail} />
+//         </div>
+//         <div onMouseLeave={this.handleMouseLeave}>
+//           <h1>{this.props.cocktail.name}</h1>
+//           <h2>{this.props.cocktail.description}</h2>
+//           <h3>{this.props.cocktail.instructions}</h3>
+//         </div>
+//       </ReactCardFlip>
+//     );
+//   }
+// }
+
+// export default FlipCard;
