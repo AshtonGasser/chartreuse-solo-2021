@@ -173,6 +173,7 @@ function Cocktails() {
                           <TextField
                             type="number"
                             style={{ width: 100, paddingTop: 15 }}
+                            value={ingredient.number}
                             InputProps={{
                               inputProps: {
                                 min: 0.25,
@@ -185,7 +186,7 @@ function Cocktails() {
                               const index = updatedIngredients.findIndex(
                                 (i) => i.id === ingredient.id
                               );
-                              updatedIngredients[index].quantity =
+                              updatedIngredients[index].number =
                                 event.target.value;
                               setMyIngredients(updatedIngredients);
                             }}

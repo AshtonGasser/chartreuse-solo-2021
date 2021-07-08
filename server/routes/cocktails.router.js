@@ -74,7 +74,7 @@ router.post("/", rejectUnauthenticated, (req, res) => {
           result.rows[0].id,
           req.body.myIngredients[i].id,
           req.body.myIngredients[i].measurement_type,
-          req.body.myIngredients[i].quantity,
+          req.body.myIngredients[i].number,
         ];
         ingredientArray.push(pool.query(insertCocktailQuery, joinValues));
       }
@@ -121,14 +121,14 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
     const updateCocktailQuery = `
     UPDATE "cocktails_ingredients" SET "ingredient_id" = $2;
     "measurement_type" = $3, "number" = $4
-    WHERE "cocktail_id"=$1 `;
+    WHERE "cocktail_id"=$1 ;`;
     const updateIngredientArray = [];
     for (let i = 0; i < req.body.myIngredients.length; i++) {
       const joinUpdateValues = [
         req.params.id,
         req.body.myIngredients[i].id,
         req.body.myIngredients[i].measurement_type,
-        req.body.myIngredients[i].quantity,
+        req.body.myIngredients[i].number,
       ];
       updateIngredientArray.push(
         pool.query(updateCocktailQuery, joinUpdateValues)
