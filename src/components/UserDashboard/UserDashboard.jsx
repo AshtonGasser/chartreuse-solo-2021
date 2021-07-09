@@ -15,6 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ReactCardFlip from "react-card-flip";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FlipCard from "../FlipCard/FlipCard";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   AppBar,
   Avatar,
@@ -28,14 +29,15 @@ import {
   Container,
   Grid,
   IconButton,
+  TextField,
   Typography,
   Toolbar,
 } from "@material-ui/core";
-// on click filter all chips by ingredient .name and takes user to all cocktails displaying cocktails containing that ingredient. 
-// create searchBar for cocktails. 
+// on click filter all chips by ingredient .name and takes user to all cocktails displaying cocktails containing that ingredient.
+// create searchBar for cocktails.
 function UserDashboard() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
-
+  const [myCocktails, setMyCocktails] = useState();
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((store) => store.user);
@@ -48,6 +50,9 @@ function UserDashboard() {
   const handleNext = () => {
     history.push("/allcocktails");
   };
+  const handleSearchClick = () =>{
+    history.push("cocktails/:id")
+  }
 
   return (
     <>
@@ -74,13 +79,33 @@ function UserDashboard() {
               >
                 My Cocktails
               </Typography>
+              <Autocomplete
+                id="size-small-outlined"
+                size="small"
+                label = "hello"
+                options={cocktails?.filter(
+                  (cocktail) => cocktail.user_id === user.id
+                )}
+                getOptionLabel={(cocktail) => cocktail.name}
+                getOptionSelected={(option, value) =>
+                  option.name === value.name
+                }
+                value={myCocktails}
+                onChange={(e, value) => {
+                  setMyCocktails(value);
+                  console.log("selected ingredients:", value);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Search"
+                    placeholder={user.name}
+                  />
+                )}
+              />
               <div className={classes.heroButtons}>
                 <Grid container spacing={2} justifycontent="center">
-                  <Grid item alignItem="center">
-                    <Button variant="contained" color="primary">
-                      all Cocktailsrgr
-                    </Button>
-                  </Grid>
                   <Grid item alignItem="center">
                     <Button
                       onClick={handleNext}
@@ -108,7 +133,6 @@ function UserDashboard() {
           </Container>
         </main>
         <div>
-          <h2>Welcome, {user.username}!</h2>
           <LogOutButton className="btn" />
         </div>
       </div>

@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import ParticleBackground from '../ParticleBackground/ParticleBackground';
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -38,6 +39,8 @@ function LoginForm() {
   }; // end login
 
   return (
+    <div>
+    <ParticleBackground/>
     <Container component="main" maxWidth="xs">
     <CssBaseline />
     <div className={classes.paper}>
@@ -106,6 +109,7 @@ function LoginForm() {
     </form>
     </div>
     </Container>
+    </div>
   );
 }
 

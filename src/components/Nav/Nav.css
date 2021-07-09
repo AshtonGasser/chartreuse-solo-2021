@@ -7,7 +7,7 @@
   align-items: center;
 
   margin: 0 0 30px;
-  background-color: #8BCD50;
+  background-color:#8BCD50;
   overflow: hidden;
 }
 
@@ -24,7 +24,9 @@ background-color: rgb(33, 33, 33);;
   padding-left: 10px;
   margin: 0;
 }
-
+.nav-title:hover {
+  background-color: #8BCD50;;
+}
 .navLink {
   display: inline-block;
   color: black;
@@ -42,5 +44,5 @@ background-color: rgb(33, 33, 33);;
 }
 
 .navLink:hover {
-  background-color: #008183;
+  background-color: #8BCD50;;
 }
