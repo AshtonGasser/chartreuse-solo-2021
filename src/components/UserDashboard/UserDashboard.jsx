@@ -49,7 +49,7 @@ function UserDashboard() {
   const handleSearchClick = () => {
     history.push("cocktails/:id");
   };
-
+  
   return (
     <>
     <div> 
@@ -63,7 +63,7 @@ function UserDashboard() {
               <Typography
               className="typographyText"
                 component="h1"
-                variant="h4"
+                variant="h5"
                 align="center"
                 gutterBottom
               >
@@ -71,7 +71,7 @@ function UserDashboard() {
               </Typography>
               <Typography
               className = "typographyText"
-                variant="h5"
+                variant="h6"
                 align="center"
                 paragraph
               >
@@ -97,8 +97,9 @@ function UserDashboard() {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    variant="outlined"
-                    label="Search"
+                    variant="filled"
+                    color ="#DFFF00"
+                    label="Search" style ={{backgroundColor: "white", outlineColor: "#DFFF00"}}
                     className = "typographyText"
                     placeholder={user.name}
                   />
@@ -118,7 +119,7 @@ function UserDashboard() {
                 ?.filter((cocktail) => cocktail.user_id === user.id)
                 .map((cocktail) => (
                   <Grid item key={cocktail} xs={12} sm={6} md={4}>
-                    <FlipCard cocktail={cocktail} alignItems="stretch" />
+                    <FlipCard cocktail={cocktail}/>
                   </Grid>
                 ))}
             </Grid>
@@ -138,6 +139,7 @@ function UserDashboard() {
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    minWidth: 345,
   },
   typography:{
     color: "#FFFFF",

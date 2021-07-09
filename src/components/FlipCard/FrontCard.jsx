@@ -10,6 +10,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import Typography from '@material-ui/core/Typography';
 import DoughnutChart from "../DoughnutChart/DoughnutChart";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,12 +20,15 @@ import Swal, {
   SweetAlertOptions,
   SweetAlertResult,
 } from "sweetalert2";
+import { ImageSearch } from "@material-ui/icons";
+import { CardActionArea } from "@material-ui/core";
 
 const FrontCard = ({ cocktail, flip, height, width }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((store) => store.user);
   const classes = useStyles();
+  const cocktails = useSelector((store) => store.cocktailReducer);
 
   const handleEdit = (cocktail) => {
     console.log("clicked handle edit");
@@ -39,7 +43,6 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
       text: "Are you sure you want to delete?",
       showCloseButton: true,
       showCancelButton: true,
-      footer: '<a href="">Why do I have this issue?</a>',
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch({
@@ -54,7 +57,14 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
   };
 
   return (
-    <Card key={cocktail.id} style={{ height: height, width: width}} >
+    // <div>
+    //   {cocktails.map((cocktail) => {
+    //     return (
+          
+    //     )
+    //   })}
+    <Card key={cocktail.id} className={classes.card}>
+      <CardActionArea>
       <CardHeader
         avatar={<Avatar aria-label={cocktail.id}>{user.username}</Avatar>}
         action={
@@ -65,11 +75,16 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
         title={cocktail.name}
         subheader="datecreated"
       />
-      <CardMedia title={cocktail.name} />
+      <CardMedia title={cocktail.name}
+
+      className={classes.media}
+      image={cocktail.url}
+    /> 
       {/* <CardContent>
          {cocktail.ingredients}
       </CardContent> */}
-      <CardContent>{cocktail.description}</CardContent>
+      <CardContent> <Typography
+         variant="body2" color="textSecondary" component="p">{cocktail.description}</Typography></CardContent>
       <CardActions disableSpacing>
         <IconButton area-label="Flip Over">
           <SwapHorizIcon onClick={flip} />
@@ -81,10 +96,50 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
           <DeleteIcon onClick={() => handleDelete(cocktail)} />
         </IconButton>
       </CardActions>
+      </CardActionArea>
     </Card>
+    // </div>
   );
 };
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 345,
+    minWidth: 345,
+  },
+  typography:{
+    color: "#FFFFF",
+  fontFamily:
+    'Roboto mono'
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: "100%",
+    width: 300,
+    display: "flex",
+    flexDirection: "column",
+    margin: 10
+  },
+  media: {
+    height: 175,
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+    CardAvatar: {
+      backgroundColor: "#8BCD50",
+    },
+  },
+}));
 
 export default FrontCard;

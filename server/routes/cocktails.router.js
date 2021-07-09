@@ -21,7 +21,7 @@ const {
 router.get("/", rejectUnauthenticated, (req, res) => {
   console.log("got to cocktails.router");
   let myQuery = `SELECT "cocktails".* , JSON_AGG (JSON_BUILD_OBJECT('id', "ingredients".id, 'name', "ingredients".name, 'ingredient_type', "ingredients".ingredient_type, 'quality', "ingredients".quality, 'user_id', "ingredients".user_id,
-  'measurement_type', "cocktails_ingredients".measurement_type, 'number', "cocktails_ingredients".number, 'url', "cocktails_ingredients".url)
+  'measurement_type', "cocktails_ingredients".measurement_type, 'number', "cocktails_ingredients".number )
  ) AS "ingredients" FROM "cocktails"
  JOIN "cocktails_ingredients" ON "cocktails".id = "cocktails_ingredients".cocktail_id
  JOIN "ingredients" ON  "cocktails_ingredients".ingredient_id = "ingredients".id
@@ -48,8 +48,8 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   // FIRST QUERY MAKES NEW COCKTAIL
   //const { name, description, instructions, glassware_id } = req.body;
 
-  const queryText = `INSERT INTO "cocktails" ("name", "description", "instructions", "glassware_id", "user_id" )
-    VALUES ($1, $2, $3, $4, $5 )
+  const queryText = `INSERT INTO "cocktails" ("name", "description", "instructions", "glassware_id", "user_id", "url", "rating")
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING id;`;
   const values = [
     req.body.myName,
@@ -57,6 +57,8 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     req.body.myInstructions,
     req.body.glassware_id,
     req.user.id,
+    req.body.url,
+    req.body.rating
   ];
   pool
     .query(queryText, values)
@@ -65,8 +67,8 @@ router.post("/", rejectUnauthenticated, (req, res) => {
       //SECOND QUERY ADDS COCKTAILS & INGREDIENTS FOR COCKTAILS-INGREDIENTS
       //const { cocktail_id, ingredient_id, measurement_type, number } = req.body;
       const insertCocktailQuery = `
-       INSERT INTO "cocktails_ingredients" ("cocktail_id", "ingredient_id", "measurement_type", "number", "url")
-       VALUES ($1, $2, $3, $4, $5) 
+       INSERT INTO "cocktails_ingredients" ("cocktail_id", "ingredient_id", "measurement_type", "number" )
+       VALUES ($1, $2, $3, $4 ) 
        ;`;
       const ingredientArray = [];
       for (let i = 0; i < req.body.myIngredients.length; i++) {
@@ -75,7 +77,6 @@ router.post("/", rejectUnauthenticated, (req, res) => {
           req.body.myIngredients[i].id,
           req.body.myIngredients[i].measurement_type,
           req.body.myIngredients[i].number,
-          req.body.myIngredients[i].url
         ];
         ingredientArray.push(pool.query(insertCocktailQuery, joinValues));
       }
@@ -105,11 +106,13 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
     req.body.myDescription,
     req.body.myInstructions,
     req.body.glassware_id,
+    req.body.url,
+    req.body.rating
     
   ];
 
   let queryUpdate = `UPDATE "cocktails" SET "name" = $2, 
-   "instructions" =$3, "description" =$4, "glassware_id"=$5
+   "instructions" =$3, "description" =$4, "glassware_id"=$5, "url"=$7, "rating" = $8
    WHERE "cocktails".id =$1`;
   if (req.user.id != 1) {
     queryUpdate += ` AND user_id = $6;`;
@@ -121,7 +124,7 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
     console.log(`we updated ingredient with id`, req.params.id);
     const updateCocktailQuery = `
     UPDATE "cocktails_ingredients" SET "ingredient_id" = $2,
-    "measurement_type" = $3, "number" = $4, "url" = $5
+    "measurement_type" = $3, "number" = $4 
     WHERE "cocktail_id"=$1 ;`;
     const updateIngredientArray = [];
     for (let i = 0; i < req.body.myIngredients.length; i++) {
@@ -130,7 +133,6 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
         req.body.myIngredients[i].id,
         req.body.myIngredients[i].measurement_type,
         req.body.myIngredients[i].number,
-        req.body.myIngredients[i].url
       ];
       updateIngredientArray.push(
         pool.query(updateCocktailQuery, joinUpdateValues)

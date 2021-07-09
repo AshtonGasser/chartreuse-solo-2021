@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ParticleBackground from '../ParticleBackground/ParticleBackground';
 import './register.css'
 function RegisterForm() {
   const [username, setUsername] = useState('');
@@ -20,6 +21,9 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
+    <div>
+      <ParticleBackground/>
+      
     <form className="formPanel" onSubmit={registerUser}>
       <h2>Register User</h2>
       {errors.registrationMessage && (
@@ -55,6 +59,7 @@ function RegisterForm() {
         <input className="btn" type="submit" name="submit" value="Register" />
       </div>
     </form>
+    </div>
   );
 }
 

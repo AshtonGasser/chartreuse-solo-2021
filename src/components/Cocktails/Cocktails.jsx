@@ -58,7 +58,7 @@ function Cocktails() {
     // dispatch to redux⬇
     if (isEditing) {
       Swal.fire({
-        icon : 'question' ,
+        icon: "question",
         title: "Do you want to save the changes?",
         showDenyButton: true,
         showCancelButton: true,
@@ -85,13 +85,12 @@ function Cocktails() {
     } else {
       Swal.fire({
         icon: "question",
-        title: "ready to post this cocktail?",
+        title: "ready to post?",
         text: "Are you still working on this cocktail?",
         confirmButtonText: `Post`,
         denyButtonText: `Not Yet`,
         showCloseButton: true,
         showCancelButton: true,
-        footer: '<a href="">Why do I have this issue?</a>',
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch({
@@ -217,7 +216,6 @@ function Cocktails() {
                               inputProps: {
                                 min: 0.25,
                                 step: "0.25",
-              
                               },
                             }}
                             onChange={(event) => {
@@ -305,14 +303,9 @@ function Cocktails() {
       </div>
 
       <div style={{ paddingTop: 20, paddingLeft: 10 }}>
-        <ButtonGroup
-          color="secondary"
-          aria-label="outlined secondary button group"
-        >
-          <Button onClick={handleClick}>Save</Button>
-          <Button>Load</Button>
-          <Button>Delete</Button>
-        </ButtonGroup>
+        <Button color="secondary" onClick={handleClick}>
+          Save
+        </Button>
       </div>
     </div>
   );

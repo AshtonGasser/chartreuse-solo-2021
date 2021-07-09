@@ -10,7 +10,7 @@ return(
     params={{
 	    "particles": {
 	        "number": {
-	            "value": 150,
+	            "value": 160,
 	            "density": {
 	                "enable": true,
 	                "value_area": 1500
@@ -27,7 +27,7 @@ return(
 	        },
 	        "move": {
 	            "direction": "none",
-	            "speed": 0.25,
+	            "speed": 0.40,
               "random": true,
 	        },
 	        "size": {

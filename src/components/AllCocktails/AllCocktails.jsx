@@ -76,9 +76,9 @@ const useStyles = makeStyles((theme) => ({
   cardMedia: {
     paddingTop: "56.25%", // 16:9
   },
-  cardContent: {
-    flexGrow: 1,
-  },
+//   cardContent: {
+//     flexGrow: 1,
+//   },
   expand: {
     transform: "rotate(0deg)",
     marginLeft: "auto",
