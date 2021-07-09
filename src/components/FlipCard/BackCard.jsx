@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
+import Typography from '@material-ui/core/Typography';
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 import React from "react";
@@ -23,7 +24,7 @@ const BackCard = ({ cocktail, flip, height, width }) => {
   const classes = useStyles();
 
   return (
-    <Card key ={cocktail.id} className={classes.root} style={{height: height, width: width}} alignItems = "stretch">
+    <Card key ={cocktail.id} className={classes.root} style={{height: height, width: width}}>
         <CardHeader
             avatar={
                 <Avatar aria-label={cocktail.id}>
@@ -38,8 +39,12 @@ const BackCard = ({ cocktail, flip, height, width }) => {
             title={cocktail.name}
             
         />
+      
         <CardMedia title={cocktail.name}/>
-        <CardContent>{cocktail.instructions}</CardContent>
+        <CardContent>
+        <Typography
+         variant="body2" color="textSecondary" component="p">{cocktail.instructions}</Typography>
+         </CardContent>
         <CardActions disableSpacing>
             <IconButton area-label="Flip Over">
                 <SwapHorizIcon onClick={flip}/>

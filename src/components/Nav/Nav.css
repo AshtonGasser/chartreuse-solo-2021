@@ -28,6 +28,7 @@ background-color: rgb(33, 33, 33);;
   background-color: #8BCD50;;
 }
 .navLink {
+  font-family: 'Roboto Mono', monospace;
   display: inline-block;
   color: black;
   background-color: #8BCD50;

@@ -15,6 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ReactCardFlip from "react-card-flip";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FlipCard from "../FlipCard/FlipCard";
+import ParticleBackground from '../ParticleBackground/ParticleBackground';
 import {
   AppBar,
   Avatar,
@@ -44,6 +45,8 @@ function AllCocktails() {
   }, []);
 
   return (
+      <div>
+      <ParticleBackground/>
     <Container className={classes.cardGrid} maxWidth="md">
       {/* End hero unit */}
       <Grid container spacing={4}>
@@ -54,6 +57,7 @@ function AllCocktails() {
         ))}
       </Grid>
     </Container>
+    </div>
   );
 }
 const useStyles = makeStyles((theme) => ({

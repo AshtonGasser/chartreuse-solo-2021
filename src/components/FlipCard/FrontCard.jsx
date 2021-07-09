@@ -10,6 +10,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import DoughnutChart from "../DoughnutChart/DoughnutChart";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -65,6 +66,9 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
         subheader="datecreated"
       />
       <CardMedia title={cocktail.name} />
+      {/* <CardContent>
+         {cocktail.ingredients}
+      </CardContent> */}
       <CardContent>{cocktail.description}</CardContent>
       <CardActions disableSpacing>
         <IconButton area-label="Flip Over">

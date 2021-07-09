@@ -16,7 +16,7 @@ function Nav() {
 
   if (user.id != null) {
     loginLinkData.path = '/user';
-    loginLinkData.text = 'Home';
+    loginLinkData.text = 'Dashboard';
   }
 
   return (
@@ -28,25 +28,26 @@ function Nav() {
         <Link className="navLink" to={loginLinkData.path}>
           {loginLinkData.text}
         </Link>
-
+        <Link to="/cocktails" className="navLink">
+          Create Cocktail
+        </Link>
+        <Link to="/ingredients" className="navLink">
+          Ingredients
+        </Link>
+        <Link className="navLink" to="/about">
+          About
+        </Link>
         {user.id && (
           <>
             <Link className="navLink" to="/info">
-              Info Page
+              Info 
             </Link>
             <LogOutButton className="navLink" />
           </>
         )}
 
-        <Link className="navLink" to="/about">
-          About
-        </Link>
-        <Link to="/ingredients" className="navLink">
-          Ingredients
-        </Link>
-        <Link to="/cocktails" className="navLink">
-          Cocktails
-        </Link>
+       
+        
       </div>
     </div>
   );

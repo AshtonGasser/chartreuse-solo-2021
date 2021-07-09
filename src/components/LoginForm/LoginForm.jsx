@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import ParticleBackground from '../ParticleBackground/ParticleBackground';
+import'./LoginForm.css'
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -90,8 +91,9 @@ function LoginForm() {
           />
       </div>
       <FormControlLabel
-            control={<Checkbox value="remember" color="default" />}
+            control={<Checkbox value="remember" className ="formcss" color="white" />}
             label="Remember me"
+            className ="formcss"
           />
       <div>
       <Button
@@ -119,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
       default: "#333333"
     },
     text: {
-      primary: "#ffffff"
+      primary: "white"
     }
   },
   paper: {
@@ -130,7 +132,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#666666",
   },
   form: {
     width: '100%', // Fix IE 11 issue.

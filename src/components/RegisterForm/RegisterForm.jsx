@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import './register.css'
 function RegisterForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -51,7 +51,7 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className = "textinput">
         <input className="btn" type="submit" name="submit" value="Register" />
       </div>
     </form>

@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
+import ParticleBackground from '../ParticleBackground/ParticleBackground';
 import { useHistory } from "react-router-dom";
 import LogOutButton from "../LogOutButton/LogOutButton";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import ReactCardFlip from "react-card-flip";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FlipCard from "../FlipCard/FlipCard";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { withStyles } from "@material-ui/core/styles";
+import './UserDash.css'
 import {
   AppBar,
   Avatar,
@@ -43,6 +38,7 @@ function UserDashboard() {
   const user = useSelector((store) => store.user);
   const cocktails = useSelector((store) => store.cocktailReducer);
   const classes = useStyles();
+ 
 
   useEffect(() => {
     dispatch({ type: "FETCH_USER_COCKTAILS" });
@@ -50,12 +46,14 @@ function UserDashboard() {
   const handleNext = () => {
     history.push("/allcocktails");
   };
-  const handleSearchClick = () =>{
-    history.push("cocktails/:id")
-  }
+  const handleSearchClick = () => {
+    history.push("cocktails/:id");
+  };
 
   return (
     <>
+    <div> 
+      <ParticleBackground/>
       <div className="container">
         <CssBaseline />
         <main>
@@ -63,26 +61,27 @@ function UserDashboard() {
           <div className={classes.heroContent}>
             <Container maxWidth="sm">
               <Typography
+              className="typographyText"
                 component="h1"
                 variant="h4"
                 align="center"
-                color="textPrimary"
                 gutterBottom
               >
                 Welcome, {user.username}!
               </Typography>
               <Typography
+              className = "typographyText"
                 variant="h5"
                 align="center"
-                color="textSecondary"
                 paragraph
               >
                 My Cocktails
               </Typography>
               <Autocomplete
+                className = "typographyText"
                 id="size-small-outlined"
                 size="small"
-                label = "hello"
+                label="hello"
                 options={cocktails?.filter(
                   (cocktail) => cocktail.user_id === user.id
                 )}
@@ -100,21 +99,14 @@ function UserDashboard() {
                     {...params}
                     variant="outlined"
                     label="Search"
+                    className = "typographyText"
                     placeholder={user.name}
                   />
                 )}
               />
               <div className={classes.heroButtons}>
                 <Grid container spacing={2} justifycontent="center">
-                  <Grid item alignItem="center">
-                    <Button
-                      onClick={handleNext}
-                      variant="outlined"
-                      color="primary"
-                    >
-                      All Cocktails
-                    </Button>
-                  </Grid>
+                  <Grid item alignItem="center"></Grid>
                 </Grid>
               </div>
             </Container>
@@ -133,8 +125,11 @@ function UserDashboard() {
           </Container>
         </main>
         <div>
-          <LogOutButton className="btn" />
+          <Button onClick={handleNext} variant="outlined" color="default">
+            All Cocktails
+          </Button>
         </div>
+      </div>
       </div>
     </>
   );
@@ -143,6 +138,11 @@ function UserDashboard() {
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+  },
+  typography:{
+    color: "#FFFFF",
+  fontFamily:
+    'Roboto mono'
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
@@ -165,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest,
     }),
-    avatar: {
+    CardAvatar: {
       backgroundColor: "#8BCD50",
     },
   },

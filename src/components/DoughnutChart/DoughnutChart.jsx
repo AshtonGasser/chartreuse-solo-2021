@@ -106,9 +106,7 @@ const DoughnutChart = ({ name, ingredients }) => {
           <option value="radar">radar</option>
           <option value="doughnut">doughnut</option>
           <option value="polarArea">polar area</option>
-          <option value="bubble">bubble</option>
           <option value="pie">pie</option>
-          <option value="scatter">scatter</option>
         </select>
       </div>
 

@@ -7,11 +7,7 @@ import { Autocomplete } from "@material-ui/lab";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { makeStyles, styled } from "@material-ui/core/styles";
-import Swal, {
-  SweetAlertIcon,
-  SweetAlertOptions,
-  SweetAlertResult,
-} from "sweetalert2";
+import Swal from "sweetalert2";
 import {
   Button,
   ButtonGroup,
@@ -47,6 +43,7 @@ function Cocktails() {
   const MyButton = styled(Button)({
     boxShadow: "0 3px 5px 2px rgba(0,0,0,0.12)",
     border: 0,
+    variant: "outlined",
     color: "white",
     height: 48,
     padding: "0 30px",
@@ -220,7 +217,7 @@ function Cocktails() {
                               inputProps: {
                                 min: 0.25,
                                 step: "0.25",
-                                defaultValue: 1,
+              
                               },
                             }}
                             onChange={(event) => {
