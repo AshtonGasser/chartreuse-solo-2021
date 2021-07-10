@@ -57,12 +57,7 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
   };
 
   return (
-    // <div>
-    //   {cocktails.map((cocktail) => {
-    //     return (
-          
-    //     )
-    //   })}
+   
     <Card key={cocktail.id} className={classes.card}>
       <CardActionArea>
       <CardHeader
@@ -98,7 +93,6 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
       </CardActions>
       </CardActionArea>
     </Card>
-    // </div>
   );
 };
 
