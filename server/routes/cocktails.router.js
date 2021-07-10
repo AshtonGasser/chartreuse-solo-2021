@@ -109,10 +109,10 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
   ];
 
   let queryUpdate = `UPDATE "cocktails" SET "name" = $2, 
-   "instructions" =$3, "description" =$4, "glassware_id"=$5, "url"=$7, "rating" = $8
+   "description" =$3, "instructions" =$4, "glassware_id"=$5, "url"=$6, "rating" = $7
    WHERE "cocktails".id =$1`;
   if (req.user.id != 1) {
-    queryUpdate += ` AND user_id = $6;`;
+    queryUpdate += ` AND user_id = $8;`;
     values.push(req.user.id);
   } else {
     queryUpdate += `;`;
