@@ -11,7 +11,7 @@ import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Typography from '@material-ui/core/Typography';
-import DoughnutChart from "../DoughnutChart/DoughnutChart";
+import moment from 'moment'
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -29,7 +29,7 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
   const user = useSelector((store) => store.user);
   const classes = useStyles();
   const cocktails = useSelector((store) => store.cocktailReducer);
-
+ const created = moment(cocktail.created).format(("MMM Do YY"))
   const handleEdit = (cocktail) => {
     console.log("clicked handle edit");
     history.push(`/cocktails/${cocktail.id}`);
@@ -68,7 +68,7 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
           </IconButton>
         }
         title={cocktail.name}
-        subheader="datecreated"
+        subheader= {created}
       />
       <CardMedia title={cocktail.name}
 
