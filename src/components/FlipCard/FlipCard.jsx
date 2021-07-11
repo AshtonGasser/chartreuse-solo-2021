@@ -12,7 +12,7 @@ const FlipCard = ({ cocktail, height, width }) => {
 
     return (
         <section style={{ height: 300, width: 300 }}>
-            <ReactCardFlip isFlipped={isFlipped}>
+            <ReactCardFlip isFlipped={isFlipped} >
                 <FrontCard cocktail={cocktail} flip={() => handleClick()} height={height} width={width}/>
                 <BackCard  cocktail={cocktail} flip={() => handleClick()} height={height} width={width}/>
             </ReactCardFlip>

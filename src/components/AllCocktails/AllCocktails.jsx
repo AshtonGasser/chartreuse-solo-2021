@@ -51,7 +51,7 @@ function AllCocktails() {
       {/* End hero unit */}
       <Grid container spacing={4}>
         {cocktails?.map((cocktail) => (
-          <Grid item key={cocktail} xs={12} sm={6} md={4}>
+          <Grid item key={cocktail}  className={classes.cardGrid} xs={12} sm={6} md={4}>
             <FlipCard cocktail={cocktail} alignItems="stretch" />
           </Grid>
         ))}
@@ -65,8 +65,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 345,
   },
   cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingTop: 16,
+    paddingBottom: 16,
   },
   card: {
     height: "100%",

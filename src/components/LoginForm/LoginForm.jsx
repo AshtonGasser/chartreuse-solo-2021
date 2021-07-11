@@ -14,7 +14,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider, createMuiTheme, withStyles, } from "@material-ui/core/styles";
 import ParticleBackground from '../ParticleBackground/ParticleBackground';
 import'./LoginForm.css'
 function LoginForm() {
@@ -48,7 +48,7 @@ function LoginForm() {
     <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography  component="h1" variant="h5">
           Sign in
         </Typography>
     <form className={classes.form} onSubmit={login}>
@@ -58,7 +58,7 @@ function LoginForm() {
         </h3>
       )}
       <div>
-      <TextField
+      <CssTextField
           htmlFor="username"
             variant="outlined"
             margin="normal"
@@ -74,11 +74,12 @@ function LoginForm() {
           />
       </div>
       <div>
-      <TextField
+        <CssTextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
+            color="secondary"
             name="password"
             label="Password:"
             htmlFor = "Password"
@@ -89,9 +90,11 @@ function LoginForm() {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
+           
       </div>
+     
       <FormControlLabel
-            control={<Checkbox value="remember" className ="formcss" color="white" />}
+            control={<Checkbox value="remember" className ="formcss"  />}
             label="Remember me"
             className ="formcss"
           />
@@ -129,6 +132,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    color: 'white',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -142,5 +146,30 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     backgroundColor: '#666666'
   },
+
 }));
+const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: 'white',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#DFFF00',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#DFFF00',
+      },
+      '&:hover fieldset': {
+        borderColor: 'white',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#DFFF00',
+      },
+    },
+    '& .MuiInputBase-input': {
+      color: 'white',
+    },
+  },
+})(TextField);
 export default LoginForm;

@@ -118,7 +118,7 @@ function UserDashboard() {
               {cocktails
                 ?.filter((cocktail) => cocktail.user_id === user.id)
                 .map((cocktail) => (
-                  <Grid item key={cocktail} xs={12} sm={6} md={4}>
+                  <Grid item key={cocktail} className= {classes.cardGrid} xs={12} sm={6} md={4}>
                     <FlipCard cocktail={cocktail}/>
                   </Grid>
                 ))}
@@ -146,12 +146,11 @@ const useStyles = makeStyles((theme) => ({
   fontFamily:
     'Roboto mono'
   },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
+  // cardGrid: {
+  //   paddingTop: spacing(8),
+  //   paddingBottom: spacing(8),
+  // },
   card: {
-    height: "100%",
     display: "flex",
     flexDirection: "column",
   },

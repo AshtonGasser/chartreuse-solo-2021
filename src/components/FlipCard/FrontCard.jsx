@@ -58,10 +58,10 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
 
   return (
    
-    <Card key={cocktail.id} className={classes.card}>
+    <Card key={cocktail.id} style={{maxHeight: height, maxWidth: width, height: height, width: width }}>
       <CardActionArea>
       <CardHeader
-        avatar={<Avatar aria-label={cocktail.id}>{user.username}</Avatar>}
+        avatar={<Avatar aria-label={cocktail.id}></Avatar>}
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
@@ -73,7 +73,8 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
       <CardMedia title={cocktail.name}
 
       className={classes.media}
-      image={cocktail.url}
+      image={cocktail.url? cocktail.url : "images/death.jpeg"}
+
     /> 
       {/* <CardContent>
          {cocktail.ingredients}
@@ -113,16 +114,21 @@ const useStyles = makeStyles((theme) => ({
   card: {
     height: "100%",
     width: 300,
+    maxWidth: 300,
+    maxHeight: "100%",
     display: "flex",
     flexDirection: "column",
-    margin: 10
+    // margin: 10
   },
   media: {
     height: 175,
-    paddingTop: "56.25%", // 16:9
+    //paddingTop: "6.25%", // 16:9
   },
   cardContent: {
     flexGrow: 1,
+  },
+  image: {
+
   },
   expand: {
     transform: "rotate(0deg)",

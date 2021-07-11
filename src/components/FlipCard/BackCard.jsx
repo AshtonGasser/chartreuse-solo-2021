@@ -24,11 +24,11 @@ const BackCard = ({ cocktail, flip, height, width }) => {
   const classes = useStyles();
 
   return (
-    <Card key ={cocktail.id} className={classes.root} style={{height: height, width: width}}>
+    <Card key ={cocktail.id} style={{maxHeight: height, maxWidth: width, height: height, width: width }}>
         <CardHeader
             avatar={
                 <Avatar aria-label={cocktail.id}>
-                    {user.username}
+                    U
                 </Avatar>
             }
             action={
@@ -55,10 +55,6 @@ const BackCard = ({ cocktail, flip, height, width }) => {
 }
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      maxWidth: 345,
-      maxWidth: 345,
-    },
     typography:{
       color: "#FFFFF",
     fontFamily:
@@ -69,7 +65,6 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: theme.spacing(8),
     },
     card: {
-      height: "100%",
       display: "flex",
       flexDirection: "column",
     },
