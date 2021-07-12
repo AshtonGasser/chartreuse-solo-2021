@@ -17,15 +17,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import FlipCard from "../FlipCard/FlipCard";
 import ParticleBackground from '../ParticleBackground/ParticleBackground';
 import {
-  AppBar,
-  Avatar,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Collapse,
   Container,
   Grid,
   IconButton,

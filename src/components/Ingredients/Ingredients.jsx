@@ -127,7 +127,6 @@ function Ingredients() {
   return (
     <>
     <div>
-      <ParticleBackground/>
 
     
       <div className={classes.root}>

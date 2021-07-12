@@ -31,7 +31,7 @@ function AboutPage() {
     <div>
       <ParticleBackground/>
     <div className="container">
-      <div className ="text">
+      <div className ="aboutText">
       {/* <Grid
                   style={{ paddingBottom: 0 }} 
                   xs={12} sm={6} md={4}>
@@ -39,10 +39,13 @@ function AboutPage() {
                 </Grid> */}
         <h3 >Technologies Used:</h3>
         <p>React.js</p>
+        <p>Redux</p>
         <p>javaScrip</p>
         <p>node.js</p>
         <p>PostgresSQL</p>
         <p>Material-Ui</p>
+        <p>moment-js</p>
+        <p>particle-react</p>
         <p>Chart.js</p>
         <p>html</p>
         <p>express</p>
