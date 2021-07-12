@@ -11,6 +11,7 @@ import FlipCard from "../FlipCard/FlipCard";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { withStyles } from "@material-ui/core/styles";
 import './UserDash.css'
+import { shadows } from '@material-ui/system';
 import {
   AppBar,
   Avatar,
@@ -51,114 +52,91 @@ function UserDashboard() {
   };
   
   return (
-    <>
     <div> 
       <ParticleBackground/>
       <div className="container">
         <CssBaseline />
-        <main>
-          {/* Hero unit */}
-          <div className={classes.heroContent}>
-            <Container maxWidth="sm">
-              <Typography
-              className="typographyText"
-                component="h1"
-                variant="h5"
-                align="center"
-                gutterBottom
-              >
-                Welcome, {user.username}!
-              </Typography>
-              <Typography
-              className = "typographyText"
-                variant="h6"
-                align="center"
-                paragraph
-              >
-                My Cocktails
-              </Typography>
-              <Autocomplete
+        <Container maxWidth="sm">
+          <Typography
+          className="typographyText"
+            component="h1"
+            variant="h5"
+            align="center"
+            gutterBottom
+          >
+            Welcome, {user.username}!
+          </Typography>
+          <Typography
+          className = "typographyText"
+            variant="h6"
+            align="center"
+            paragraph
+          >
+            My Cocktails
+          </Typography>
+         
+          <Autocomplete
+            className = {classes.container}
+            id="size-small-outlined"
+            size="small"
+            label="hello"
+            options={cocktails?.filter(
+              (cocktail) => cocktail.user_id === user.id
+            )}
+            getOptionLabel={(cocktail) => cocktail.name}
+            getOptionSelected={(option, value) =>
+              option.name === value.name
+            }
+            value={myCocktails}
+            onChange={(e, value) => {
+              setMyCocktails(value);
+              console.log("selected ingredients:", value);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="filled"
+                label="Search" style ={{backgroundColor: "white", outlineColor: "#DFFF00"}}
                 className = "typographyText"
-                id="size-small-outlined"
-                size="small"
-                label="hello"
-                options={cocktails?.filter(
-                  (cocktail) => cocktail.user_id === user.id
-                )}
-                getOptionLabel={(cocktail) => cocktail.name}
-                getOptionSelected={(option, value) =>
-                  option.name === value.name
-                }
-                value={myCocktails}
-                onChange={(e, value) => {
-                  setMyCocktails(value);
-                  console.log("selected ingredients:", value);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="filled"
-                    color ="#DFFF00"
-                    label="Search" style ={{backgroundColor: "white", outlineColor: "#DFFF00"}}
-                    className = "typographyText"
-                    placeholder={user.name}
-                  />
-                )}
+                placeholder={user.name}
               />
-              <div className={classes.heroButtons}>
-                <Grid container spacing={2} justifycontent="center">
-                  <Grid item alignItem="center"></Grid>
-                </Grid>
-              </div>
-            </Container>
-          </div>
-          <Container className={classes.cardGrid} maxWidth="md">
-            {/* End hero unit */}
-            <Grid container spacing={4}>
-              {cocktails
-                ?.filter((cocktail) => cocktail.user_id === user.id)
-                .map((cocktail) => (
-                  <Grid item key={cocktail} className= {classes.cardGrid} xs={12} sm={6} md={4}>
-                    <FlipCard cocktail={cocktail}/>
-                  </Grid>
-                ))}
+            )}
+          />
+          <div className={classes.heroButtons}>
+            <Grid container spacing={2} justifycontent="center">
+              <Grid item alignitem="center"></Grid>
             </Grid>
-          </Container>
-        </main>
-        <div>
-          <Button onClick={handleNext} variant="outlined" color="default">
-            All Cocktails
-          </Button>
-        </div>
+          </div>
+        </Container>
+
+        <Container className={classes.cardGrid} maxWidth="md">
+          <Grid container spacing={4}>
+            {cocktails
+              ?.filter((cocktail) => cocktail.user_id === user.id)
+              .map((cocktail) => (
+                <Grid 
+                  item 
+                  key={cocktail.id} 
+                  style={{ paddingBottom: 0 }} 
+                  xs={12} sm={6} md={4}>
+                  <FlipCard cocktail={cocktail} />
+                </Grid>
+              ))}
+          </Grid>
+        </Container>
+        
       </div>
-      </div>
-    </>
+    </div>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-    minWidth: 345,
-  },
-  typography:{
-    color: "#FFFFF",
-  fontFamily:
-    'Roboto mono'
-  },
-  // cardGrid: {
-  //   paddingTop: spacing(8),
-  //   paddingBottom: spacing(8),
-  // },
-  card: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
+  container: {
+    paddingBottom: 40,
+  }, 
+  cardGrid: {
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   expand: {
     transform: "rotate(0deg)",
@@ -171,6 +149,5 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-// this allows us to use <App /> in index.js
 
 export default UserDashboard;

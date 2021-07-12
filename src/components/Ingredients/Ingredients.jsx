@@ -10,6 +10,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import DeleteIcon from "@material-ui/icons/Delete";
+import moment from 'moment'
+import { MuiThemeProvider, createMuiTheme, withStyles, } from "@material-ui/core/styles";
+import ParticleBackground from '../ParticleBackground/ParticleBackground';
 import Swal, {
   SweetAlertIcon,
   SweetAlertOptions,
@@ -34,7 +37,7 @@ function Ingredients() {
   const ingredient = useSelector((store) => store.ingredientReducer.ingredient);
   const editIngredient = useSelector((store) => store.edit);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
-
+  const created = moment(ingredient.created).format(("MMM Do YY"))
   const [newIngredient, setNewIngredient] = useState({
     name: "",
     ingredient_type: "",
@@ -123,6 +126,10 @@ function Ingredients() {
   console.log("in selectedIngredients", selectedIngredients);
   return (
     <>
+    <div>
+      <ParticleBackground/>
+
+    
       <div className={classes.root}>
         <TextField
           id="filled-basic"
@@ -238,8 +245,32 @@ function Ingredients() {
           </div>
         </div>
       </section>
+      </div>
     </>
   );
 }
-
+const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: 'white',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#DFFF00',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#DFFF00',
+      },
+      '&:hover fieldset': {
+        borderColor: 'white',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#DFFF00',
+      },
+    },
+    '& .MuiInputBase-input': {
+      color: 'white',
+    },
+  },
+})(TextField);
 export default Ingredients;

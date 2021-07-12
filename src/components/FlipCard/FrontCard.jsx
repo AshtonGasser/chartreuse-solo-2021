@@ -29,7 +29,7 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
   const user = useSelector((store) => store.user);
   const classes = useStyles();
   const cocktails = useSelector((store) => store.cocktailReducer);
- const created = moment(cocktail.created).format(("MMM Do YY"))
+  const created = moment(cocktail.created).format(("MMM Do YY"))
   const handleEdit = (cocktail) => {
     console.log("clicked handle edit");
     history.push(`/cocktails/${cocktail.id}`);
@@ -57,89 +57,88 @@ const FrontCard = ({ cocktail, flip, height, width }) => {
   };
 
   return (
-   
-    <Card key={cocktail.id} style={{maxHeight: height, maxWidth: width, height: height, width: width }}>
-      <CardActionArea>
+    <Card key={cocktail.id}  boxShadow={2}
+    m={1}
+    p={1}
+    style={{ width: '8rem', height: '5rem' }}style={{ height: '100%', maxHeight: '100%', width: '100%', maxWidth: '100%' }}>
       <CardHeader
+        title={cocktail.name}
+        titleTypographyProps={{
+          noWrap: true,
+        }}
+        subheader={created}
         avatar={<Avatar aria-label={cocktail.id}></Avatar>}
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={cocktail.name}
-        subheader= {created}
+        classes={{
+          content: classes.headerContent
+        }}
       />
-      <CardMedia title={cocktail.name}
 
-      className={classes.media}
-      image={cocktail.url? cocktail.url : "images/death.jpeg"}
+      <CardMedia 
+        title={cocktail.name}
+        className={classes.media}
+        image={cocktail.url? cocktail.url : "images/death.jpeg"}
+      />
 
-    /> 
-      {/* <CardContent>
-         {cocktail.ingredients}
-      </CardContent> */}
-      <CardContent> <Typography
-         variant="body2" color="textSecondary" component="p">{cocktail.description}</Typography></CardContent>
-      <CardActions disableSpacing>
-        <IconButton area-label="Flip Over">
-          <SwapHorizIcon onClick={flip} />
-        </IconButton>
-        <IconButton aria-label="Edit">
-          <EditIcon onClick={() => handleEdit(cocktail)} />
-        </IconButton>
-        <IconButton aria-label="Delete">
-          <DeleteIcon onClick={() => handleDelete(cocktail)} />
-        </IconButton>
-      </CardActions>
+      <CardContent classes={{ root: classes.contentRoot }}> 
+        <Typography
+          variant="body2" 
+          color="textSecondary" 
+          component="p"
+          className={classes.description}>
+          {cocktail.description}
+        </Typography>
+      </CardContent>
+      
+      <CardActionArea>
+        <CardActions disableSpacing>
+          <IconButton area-label="Flip Over" onClick={flip}>
+            <SwapHorizIcon  />
+          </IconButton>
+          <IconButton aria-label="Edit" onClick={() => handleEdit(cocktail)}>
+            <EditIcon  />
+          </IconButton>
+          <IconButton aria-label="Delete" onClick={() => handleDelete(cocktail)}>
+            <DeleteIcon  />
+          </IconButton>
+        </CardActions>
       </CardActionArea>
     </Card>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-    minWidth: 345,
-  },
-  typography:{
-    color: "#FFFFF",
-  fontFamily:
-    'Roboto mono'
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: "100%",
-    width: 300,
-    maxWidth: 300,
-    maxHeight: "100%",
-    display: "flex",
-    flexDirection: "column",
-    // margin: 10
-  },
   media: {
     height: 175,
-    //paddingTop: "6.25%", // 16:9
   },
-  cardContent: {
-    flexGrow: 1,
+  headerContent: {
+    overflow: 'hidden'
   },
-  image: {
-
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-    CardAvatar: {
-      backgroundColor: "#8BCD50",
-    },
-  },
+  contentRoot: {
+    overflow: 'auto',
+    height: 89,
+    maxHeight: 89,
+    background:
+    `linear-gradient(white 30%, rgba(255, 255, 255, 0)), 
+    linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+    radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), 
+    radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%`,
+    background:
+    `linear-gradient(white 30%, rgba(255, 255, 255, 0)), 
+    linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), 
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%`,
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: 'transparent',
+    backgroundSize: '100% 40px, 100% 40px, 100% 14px, 100% 14px',
+    /* Opera doesn't support this in the shorthand */
+    backgroundAttachment: 'local, local, scroll, scroll',
+    borderBottom: '1px solid lightgrey'
+  }
 }));
 
 export default FrontCard;

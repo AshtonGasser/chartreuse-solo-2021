@@ -28,6 +28,9 @@ function Nav() {
         <Link className="navLink" to={loginLinkData.path}>
           {loginLinkData.text}
         </Link>
+        <Link to="/allcocktails" className="navLink">
+          All
+        </Link>
         <Link to="/cocktails" className="navLink">
           Create Cocktail
         </Link>

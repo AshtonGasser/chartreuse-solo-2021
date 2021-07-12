@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
@@ -20,6 +20,8 @@ import'./LoginForm.css'
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const usernameInput = useRef();
+  const passwordInput = useRef();
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -57,41 +59,32 @@ function LoginForm() {
           {errors.loginMessage}
         </h3>
       )}
-      <div>
+
       <CssTextField
-          htmlFor="username"
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username:"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-      </div>
-      <div>
-        <CssTextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            color="secondary"
-            name="password"
-            label="Password:"
-            htmlFor = "Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-           
-      </div>
+          id="username"
+          name="username"
+          label="Username"
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          autoFocus
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+      />
+
+      <CssTextField
+        id="password"
+        name="password"
+        label="Password"
+        type="password"
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+      />
      
       <FormControlLabel
             control={<Checkbox value="remember" className ="formcss"  />}
@@ -148,6 +141,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
 }));
+
 const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
@@ -169,7 +163,13 @@ const CssTextField = withStyles({
     },
     '& .MuiInputBase-input': {
       color: 'white',
+      '-webkit-text-fill-color': 'white',
+      '-webkit-box-shadow': '0 0 0 50px #333333 inset'
     },
-  },
+    '& .MuiFormLabel-root': {
+      color: 'white',
+    }
+  }
 })(TextField);
+
 export default LoginForm;

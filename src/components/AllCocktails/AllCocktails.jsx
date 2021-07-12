@@ -61,31 +61,20 @@ function AllCocktails() {
   );
 }
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-  },
+  container: {
+    paddingBottom: 40,
+  }, 
   cardGrid: {
-    paddingTop: 16,
-    paddingBottom: 16,
+    paddingTop: 15,
+    paddingBottom: 15,
   },
-  card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-  },
-//   cardContent: {
-//     flexGrow: 1,
-//   },
   expand: {
     transform: "rotate(0deg)",
     marginLeft: "auto",
     transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest,
     }),
-    avatar: {
+    CardAvatar: {
       backgroundColor: "#8BCD50",
     },
   },

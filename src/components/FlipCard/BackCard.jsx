@@ -8,82 +8,115 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
-import Typography from '@material-ui/core/Typography';
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
-import React from "react";
+import { shadows } from '@material-ui/system';
+import {
+  Typography,
+  CardActionArea
+} from '@material-ui/core';
+import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Ingredients from "../Ingredients/Ingredients";
 import Chip from '@material-ui/core/Chip';
-
+import moment from 'moment';
 
 const BackCard = ({ cocktail, flip, height, width }) => {
-    const user = useSelector((store) => store.user);
-    const cocktails = useSelector((store) => store.cocktailReducer);
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.user);
+  const cocktails = useSelector((store) => store.cocktailReducer);
+  const created = moment(cocktail.created).format(("MMM Do YY"))
   const classes = useStyles();
+  const [myChips, setMyChips] = useState({})
+  useEffect(() => {
+    dispatch({ type: "FETCH_USER_COCKTAILS" });
+    dispatch({ type: "FETCH_INGREDIENT" });
+  }, []);
+
+  console.log(JSON.stringify(cocktail));
 
   return (
-    <Card key ={cocktail.id} style={{maxHeight: height, maxWidth: width, height: height, width: width }}>
-        <CardHeader
-            avatar={
-                <Avatar aria-label={cocktail.id}>
-                    U
-                </Avatar>
-            }
-            action={
-                <IconButton aria-label="settings">
-                    <MoreVertIcon />
-                </IconButton>
-            }
-            title={cocktail.name}
-            
-        />
+    <Card key ={cocktail.id} style={{ height: '100%', maxHeight: '100%', width: '100%', maxWidth: '100%' }}>
+      <CardHeader
+        title={cocktail.name}
+        titleTypographyProps={{
+          noWrap: true,
+        }}
+        subheader={created}
+        avatar={<Avatar aria-label={cocktail.id}></Avatar>}
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
+        classes={{
+          content: classes.headerContent
+        }}
+      />
       
-        <CardMedia title={cocktail.name}/>
-        <CardContent>
+      <CardContent classes={{ root: classes.contentRoot }}>
+        {
+          cocktail.ingredients.map((ingredient) => 
+            <Chip 
+              label={ingredient.name} 
+              component="a"
+              href="#chip"
+              clickable 
+              size='small'
+              classes={{
+                root: classes.chipRoot
+              }}
+            />
+          )
+        }
+
         <Typography
-         variant="body2" color="textSecondary" component="p">{cocktail.instructions}</Typography>
-         </CardContent>
+          variant="body2" 
+          color="textSecondary" 
+          component="p">
+          {cocktail.instructions}
+        </Typography>
+      </CardContent>
+      
+      <CardActionArea>
         <CardActions disableSpacing>
-            <IconButton area-label="Flip Over">
-                <SwapHorizIcon onClick={flip}/>
+            <IconButton area-label="Flip Over" onClick={flip}>
+                <SwapHorizIcon />
             </IconButton>
         </CardActions>
+      </CardActionArea>
     </Card>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
-    typography:{
-      color: "#FFFFF",
-    fontFamily:
-      'Roboto mono'
-    },
-    cardGrid: {
-      paddingTop: theme.spacing(8),
-      paddingBottom: theme.spacing(8),
-    },
-    card: {
-      display: "flex",
-      flexDirection: "column",
-    },
-    cardMedia: {
-      paddingTop: "56.25%", // 16:9
-    },
-    cardContent: {
-      flexGrow: 1,
-    },
-    expand: {
-      transform: "rotate(0deg)",
-      marginLeft: "auto",
-      transition: theme.transitions.create("transform", {
-        duration: theme.transitions.duration.shortest,
-      }),
-      CardAvatar: {
-        backgroundColor: "#8BCD50",
-      },
-    },
-  }));
+  headerContent: {
+    overflow: 'hidden'
+  },
+  chipRoot: {
+    marginVertical: 2,
+    marginHorizontal: 1
+  },
+  contentRoot: {
+    overflow: 'auto',
+    height: 264,
+    maxHeight: 264,
+    background:
+    `linear-gradient(white 30%, rgba(255, 255, 255, 0)), 
+    linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+    radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), 
+    radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%`,
+    background:
+    `linear-gradient(white 30%, rgba(255, 255, 255, 0)), 
+    linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), 
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%`,
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: 'transparent',
+    backgroundSize: '100% 40px, 100% 40px, 100% 14px, 100% 14px',
+    /* Opera doesn't support this in the shorthand */
+    backgroundAttachment: 'local, local, scroll, scroll',
+    borderBottom: '1px solid lightgrey'
+  }
+}));
 
 export default BackCard;

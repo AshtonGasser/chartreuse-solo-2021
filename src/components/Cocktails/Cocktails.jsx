@@ -320,7 +320,6 @@ const useStyles = makeStyles((theme) => ({
     "& > * + *": {
       marginTop: theme.spacing(3),
       background: "#333333",
-      color: "white",
       flexGrow: 1,
     },
     title: {
