@@ -21,7 +21,8 @@ function Nav() {
 
   return (
     <div className="nav">
-      <Link to="/home">
+      {/* switch Link to home when component is fleshed out  */}
+      <Link to="/login">
         <h3 className="nav-title">_Chartreuse</h3>
       </Link>
       <div>

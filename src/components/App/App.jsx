@@ -98,7 +98,8 @@ function App() {
             // - if logged in, redirects to "/user"
             // - else shows LandingPage at "/home"
             exact
-            path="/home"
+            //switch back to home when component is fleshed out 
+            path="/login"
             authRedirect="/user"
           >
             <LandingPage />
