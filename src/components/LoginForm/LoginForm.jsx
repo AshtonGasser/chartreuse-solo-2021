@@ -53,7 +53,7 @@ function LoginForm() {
         <Typography  component="h1" variant="h5">
           Sign in
         </Typography>
-    <form className={classes.form} onSubmit={login}>
+    <form className={classes.form} onSubmit={login} noValidate>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
