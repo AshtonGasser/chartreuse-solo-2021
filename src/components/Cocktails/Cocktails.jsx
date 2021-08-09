@@ -97,13 +97,14 @@ function Cocktails() {
             type: "ADD_COCKTAIL",
             payload: { myDescription, myInstructions, myName, myIngredients },
           });
+          history.push("/user");
           Swal.fire("Cocktail Created!", "", "success");
         } else if (result.isDenied) {
           Swal.fire("Changes are not saved", "", "info");
         }
       });
     }
-    history.push("/user");
+    
   };
 
   useEffect(() => {
