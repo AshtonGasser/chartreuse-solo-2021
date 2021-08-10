@@ -42,8 +42,12 @@ function AllCocktails() {
       {/* End hero unit */}
       <Grid container spacing={4}>
         {cocktails?.map((cocktail) => (
-          <Grid item key={cocktail}  className={classes.cardGrid} xs={12} sm={6} md={4}>
-            <FlipCard cocktail={cocktail} alignItems="stretch" />
+          <Grid
+           item
+           key={cocktail.id}
+           style={{ paddingBottom: 0 }} 
+            xs={12} sm={6} md={4}>
+            <FlipCard cocktail={cocktail} />
           </Grid>
         ))}
       </Grid>

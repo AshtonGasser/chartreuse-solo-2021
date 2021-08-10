@@ -64,7 +64,7 @@ function UserDashboard() {
             align="center"
             gutterBottom
           >
-            Welcome, {user.username}!
+            Welcome, {user.first_name}
           </Typography>
           <Typography
           className = "typographyText"
@@ -103,8 +103,8 @@ function UserDashboard() {
             )}
           />
           <div className={classes.heroButtons}>
-            <Grid container spacing={2} justifycontent="center">
-              <Grid item alignitem="center"></Grid>
+            <Grid container spacing={2} justify-content="center">
+              <Grid item align-item="center"></Grid>
             </Grid>
           </div>
         </Container>

@@ -32,7 +32,7 @@ const BackCard = ({ cocktail, flip, height, width }) => {
     dispatch({ type: "FETCH_INGREDIENT" });
   }, []);
 
-  console.log(JSON.stringify(cocktail));
+  // console.log(JSON.stringify(cocktail));
 
   return (
     <Card key ={cocktail.id} style={{ height: '100%', maxHeight: '100%', width: '100%', maxWidth: '100%' }}>
