@@ -12,7 +12,7 @@ import Nav from "../Nav/Nav";
 import Footer from "../Footer/Footer";
 
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-
+import { createTheme, ThemeProvider } from "@material-ui/core";
 import AboutPage from "../AboutPage/AboutPage";
 import UserDashboard from "../UserDashboard/UserDashboard";
 import InfoPage from "../InfoPage/InfoPage";
@@ -24,6 +24,29 @@ import Cocktails from "../Cocktails/Cocktails.jsx";
 import AllCocktails from "../AllCocktails/AllCocktails";
 import "./App.css";
 
+const theme = createTheme({
+  root: {},
+  palette: {
+    primary: {
+      main: '#666666',
+    },
+    // secondary: {
+    //   main: '#ef3e47',
+    // },
+  },
+  typography: {
+    h1: {
+      fontFamily: 'Yantramanav',
+      fontWeightBold: 700,
+    },
+    button: {
+      textTransform: 'uppercase',
+      // fontFamily: 'Yantramanav',
+      fontWeightBold: 700,
+    },
+  },
+});
+
 function App() {
   const dispatch = useDispatch();
 
@@ -32,6 +55,7 @@ function App() {
   }, [dispatch]);
 
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <div>
         <Nav />
@@ -128,6 +152,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </ThemeProvider>
   );
 }
 
