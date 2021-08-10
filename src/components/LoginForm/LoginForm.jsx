@@ -61,12 +61,13 @@ function LoginForm() {
       )}
 
       <CssTextField
-          id="username"
-          name="username"
-          label="Username"
+          id="email"
+          name="email"
+          label="Email Address"
           variant="outlined"
           margin="normal"
           required
+          autoComplete="email"
           fullWidth
           autoFocus
           value={username}
