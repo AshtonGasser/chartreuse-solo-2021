@@ -93,13 +93,13 @@ function Ingredients() {
     
   };
 
-  const handleEditClick = async ({ id, field, props }, event) => {
+  const handleEditClick = async ({ id, field, value }, event) => {
     dispatch({
       type: "EDIT_INGREDIENT",
       payload: {
         id: id,
         field: field,
-        value: props.value,
+        value: value,
       },
     });
   };
@@ -234,7 +234,7 @@ function Ingredients() {
                 onSelectionModelChange={(e) =>
                   setSelectedIngredients(e.selectionModel)
                 }
-                onEditCellChangeCommitted={handleEditClick}
+                onCellEditCommit={handleEditClick}
                 rows={ingredient}
                 columns={columns}
                 checkboxSelection
