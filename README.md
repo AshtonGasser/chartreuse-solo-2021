@@ -70,4 +70,4 @@ Lastly the user can go to the All page they will find all cocktails made by the 
 Thanks to Prime Digital Academy who equipped and helped me to make this application a reality.
  ## Support  
 
-If you have suggestions or issues, please email me at terry.okeefe87@gmail.com
+If you have suggestions or issues, please email me at ashtongasser@gmail.com
